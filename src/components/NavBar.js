@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import logo from "../assets/images/tmdb.svg";
+import { NavLink, Link } from "react-router-dom";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -26,15 +27,25 @@ const StyledList = styled.ul`
     a {
       font-size: 1.4rem;
       color: black;
+      &:hover {
+        border-bottom: 2px solid black;
+      }
     }
   }
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+  .active {
+    font-weight: 700;
+    border-bottom: 2px solid black;
+  }
 `;
-const LogoWrapper = styled.a`
-  width:12rem;
-  margin-top:1rem;
-  img{
-    width:100%;
-    color:purple;
+const LogoWrapper = styled(Link)`
+  width: 12rem;
+  margin-top: 1rem;
+  img {
+    width: 100%;
+    color: purple;
   }
 `;
 
@@ -47,22 +58,21 @@ const NavBar = ({ submitted }) => {
 
   return (
     <StyledHeader>
-      <LogoWrapper href="">
-        <img src={logo} alt="api provider logo"/>
+      <LogoWrapper to="/">
+        <img src={logo} alt="api provider logo" />
       </LogoWrapper>
 
       <StyledList>
         <li>
-          <a href="">Popularne</a>
+          <NavLink to="/movies" >
+            Filmy
+          </NavLink>
         </li>
         <li>
-          <a href="">Filmy</a>
+          <NavLink to="/series" >Seriale</NavLink>
         </li>
         <li>
-          <a href="">Seriale</a>
-        </li>
-        <li>
-          <a href="">Gatunki</a>
+          <NavLink to="/genres">Gatunki</NavLink>
         </li>
       </StyledList>
       <StyledInput

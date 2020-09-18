@@ -4,13 +4,13 @@ import { API_KEY, IMG_PATH } from "../App";
 import styled from "styled-components";
 
 const StyledWrapper = styled.div`
-  margin-top: 5rem;
+  margin-top: 10rem;
   width: 100%;
   height: 100%;
   position: relative;
   display: flex;
   div {
-    flex-grow: 1;
+    width:50%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,14 +18,16 @@ const StyledWrapper = styled.div`
       padding: 0 2rem;
       font-size: 2.5rem;
     }
-    i {
-      margin-top: 2rem;
+    .rating {
+      display: flex;
+      align-items: center;
       color: #cfb53b;
-      font-size: 2rem;
-      top: 1rem;
-      left: 1rem;
-      -webkit-text-stroke-width: 0.5px;
-      -webkit-text-stroke-color: #000;
+      font-size: 3rem;
+      i {
+        font-size: 3rem;
+        top: 1rem;
+        left: 1rem;
+      }
     }
     p {
       font-size: 2rem;
@@ -53,14 +55,14 @@ const StyledWrapper = styled.div`
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      
+
       p {
         margin-top: 1rem;
-        margin-right:1rem;
+        margin-right: 1rem;
         padding: 0.5rem 1rem;
         border: 1px solid #cccccc;
         border-radius: 2px;
-        font-weight:normal;
+        font-weight: normal;
       }
     }
   }
@@ -126,7 +128,10 @@ const SeriesDetail = () => {
           {defaultMovies.name}({dateStart}-{dateEnd})
         </h1>
         <h1 className="genres">{genres}</h1>
-        <i className="fas fa-star">{defaultMovies.vote_average}</i>
+        <p className="rating">
+          <i className="material-icons">star</i>
+          {defaultMovies.vote_average}
+        </p>
         <h1 className="seasons">{seasons}</h1>
         <p>{defaultMovies.release_date}</p>
         <p>{defaultMovies.overview}</p>

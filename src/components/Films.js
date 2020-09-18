@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MovieCard from "./MovieCard";
 import { API_KEY, IMG_PATH } from "../App";
+import debounce from "lodash.debounce";
+
 
 const StyledGridContainer = styled.div`
-  margin-top:5rem;
+  margin-top:10rem;
   margin-bottom:5rem;
   width: 100%;
   display: grid;
@@ -15,18 +17,23 @@ const StyledGridContainer = styled.div`
 const Films = (props) => {
   const [defaultMovies, setDefaultMovies] = useState([]);
   const [error, setError] = useState(false);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [lastPage, setLastPage] = useState(null);
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`
     )
       .then((data) => data.json())
       .then((res) => {
-        setDefaultMovies(res.results);
+        setDefaultMovies(prevMovies => [...prevMovies, ...res.results]);
+        setLastPage(res.total_pages);
         setError(false);
+        setLoading(false)
       })
       .catch((err) => setError(`data couldn't be loaded...`));
-  }, []);
+  }, [page]);
 
 
   let cards = defaultMovies.map((movie) => (
@@ -41,6 +48,18 @@ const Films = (props) => {
       avg={movie.vote_average}
     />
   ));
+
+  window.onscroll = debounce(() => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop
+      === document.documentElement.offsetHeight
+    ) {
+      page < lastPage && setPage(page + 1);
+      
+    }
+  }, 100);
+
+  
 
   return <StyledGridContainer>{cards}</StyledGridContainer>;
 };

@@ -2,11 +2,21 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import logo from "../assets/images/tmdb.svg";
 import { NavLink, Link } from "react-router-dom";
+import { Container } from "../App";
 
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const FixedHeader = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index:200;
+  background-color:rgba(255,255,255,0.97)
 `;
 
 const StyledInput = styled.input`
@@ -57,31 +67,33 @@ const NavBar = ({ submitted }) => {
   }, [inputValue]);
 
   return (
-    <StyledHeader>
-      <LogoWrapper to="/">
-        <img src={logo} alt="api provider logo" />
-      </LogoWrapper>
+    <FixedHeader>
+      <Container>
+        <StyledHeader>
+          <LogoWrapper to="/">
+            <img src={logo} alt="api provider logo" />
+          </LogoWrapper>
 
-      <StyledList>
-        <li>
-          <NavLink to="/movies" >
-            Filmy
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/series" >Seriale</NavLink>
-        </li>
-        <li>
-          <NavLink to="/genres">Gatunki</NavLink>
-        </li>
-      </StyledList>
-      <StyledInput
-        type="text"
-        placeholder="Type Movie Title..."
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-      />
-    </StyledHeader>
+          <StyledList>
+            <li>
+              <NavLink to="/movies">Filmy</NavLink>
+            </li>
+            <li>
+              <NavLink to="/series">Seriale</NavLink>
+            </li>
+            <li>
+              <NavLink to="/genres">Gatunki</NavLink>
+            </li>
+          </StyledList>
+          <StyledInput
+            type="text"
+            placeholder="Type Movie Title..."
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+        </StyledHeader>
+      </Container>
+    </FixedHeader>
   );
 };
 

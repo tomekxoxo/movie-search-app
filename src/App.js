@@ -7,11 +7,10 @@ import Series from "./components/Series";
 import MovieDetail from "./components/MovieDetail";
 import SeriesDetail from "./components/SeriesDetail";
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
   max-width: 120rem;
   margin: 0 auto;
-  /* background-color:#eee; */
   padding: 0 1rem;
 `;
 
@@ -35,18 +34,18 @@ function App() {
 
   return (
     <div>
-      <Container>
-        <NavBar submitted={submitTitleHandler} />
-        <Switch>
+      <NavBar submitted={submitTitleHandler} />
+      <Switch>
+        <Container>
           <Route path="/" exact>
             <Redirect to="/movies" />
           </Route>
-          <Route path="/movies" exact component={Films} />   
+          <Route path="/movies" exact component={Films} />
+          <Route path="/movies/:id" exact component={MovieDetail} />
           <Route path="/series" exact component={Series} />
-          <Route path="/movies/:id"exact  component={MovieDetail} />
           <Route path="/series/:id" exact component={SeriesDetail} />
-        </Switch>
-      </Container>
+        </Container>
+      </Switch>
     </div>
   );
 }

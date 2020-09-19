@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import MovieCard from "./MovieCard";
 import { API_KEY, IMG_PATH } from "../App";
 import debounce from "lodash.debounce";
-import useFetch from "../hooks/useFetch";
-import useFetchFilter from "../hooks/useFetchFilter";
 import Filter from "./Filter";
 
 const StyledGridContainer = styled.div`
@@ -16,23 +14,47 @@ const StyledGridContainer = styled.div`
 `;
 
 const Series = (props) => {
+  const [defaultMovies, setDefaultMovies] = useState([]);
+  const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [lastPage, setLastPage] = useState(null);
   const [filter, setFilter] = useState("popularity.desc");
-  const [mergedData, setMergedData] = useState([]);
+  const didMountRef = useRef(false);
 
-  
-  const [data, lastPage] = useFetch(
-    `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`,
-    [page]
-  );
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
+    )
+      .then((data) => data.json())
+      .then((res) => {
+        setDefaultMovies((prevMovies) => [...prevMovies, ...res.results]);
 
-  const [filteredData] = useFetchFilter(
-    `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`,
-    [filter]
-  );
+        setLastPage(res.total_pages);
+        setError(false);
+        setLoading(false);
+      })
+      .catch((err) => setError(`data couldn't be loaded...`));
+  }, [page]);
 
-  //tu jest błąd chcę zapisać filteredData do stanu
-  setMergedData(data)
+  useEffect(() => {
+    if (didMountRef.current) {
+      fetch(
+        `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
+      )
+        .then((data) => data.json())
+        .then((res) => {
+          setDefaultMovies(res.results);
+
+          setLastPage(res.total_pages);
+          setError(false);
+          setLoading(false);
+        })
+        .catch((err) => setError(`data couldn't be loaded...`));
+    } else {
+      didMountRef.current = true;
+    }
+  }, [filter]);
 
 
   const onChangeFilter = (e) => {
@@ -49,7 +71,7 @@ const Series = (props) => {
   }, 100);
 
 
-  const cards = mergedData.map((movie) => (
+  const cards = defaultMovies.map((movie) => (
     <MovieCard
       isMovie={false}
       key={movie.id}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import MovieCard from "./MovieCard";
 import { API_KEY, IMG_PATH } from "../App";
@@ -20,6 +20,7 @@ const Films = (props) => {
   const [loading, setLoading] = useState(true);
   const [lastPage, setLastPage] = useState(null);
   const [filter, setFilter] = useState("popularity.desc");
+  const didMountRef = useRef(false);
 
   useEffect(() => {
     fetch(
@@ -37,18 +38,22 @@ const Films = (props) => {
   }, [page]);
 
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
-    )
-      .then((data) => data.json())
-      .then((res) => {
-        setDefaultMovies(res.results);
+    if (didMountRef.current) {
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
+      )
+        .then((data) => data.json())
+        .then((res) => {
+          setDefaultMovies(res.results);
 
-        setLastPage(res.total_pages);
-        setError(false);
-        setLoading(false);
-      })
-      .catch((err) => setError(`data couldn't be loaded...`));
+          setLastPage(res.total_pages);
+          setError(false);
+          setLoading(false);
+        })
+        .catch((err) => setError(`data couldn't be loaded...`));
+    } else {
+      didMountRef.current = true;
+    }
   }, [filter]);
 
   let cards = defaultMovies.map((movie) => (

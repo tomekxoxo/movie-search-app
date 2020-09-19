@@ -14,7 +14,7 @@ const StyledCard = styled(Link)`
   overflow: hidden;
   /* position:relative; */
   &:hover {
-    box-shadow: 8px 8px 5px #eee;
+    box-shadow: 0px 0px 15px 10px #eee;
     cursor: pointer;
     img{
       transform: scale(1.05);
@@ -47,7 +47,9 @@ const StyledCard = styled(Link)`
     position: relative;
   }
   p {
+    text-align:left;
     background-color:rgba(0,0,0,.5);
+    padding-left: 1rem;
     z-index:6;
     color: #cfb53b;
     font-size: 3rem;

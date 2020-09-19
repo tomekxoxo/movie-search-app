@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import NavBar from "./components/NavBar";
 import styled from "styled-components";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -19,9 +19,9 @@ const API_KEY = "5164c32e4ce67e20eb6052f1f8215c14";
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 
 function App() {
-  // popularne filmy = https://api.themoviedb.org/3/discover/movie?api_key=5164c32e4ce67e20eb6052f1f8215c14&language=pl&sort_by=popularity.desc&include_adult=false&include_video=false&page=1
 
-  //popularne seriale = https://api.themoviedb.org/3/discover/tv?api_key=5164c32e4ce67e20eb6052f1f8215c14&language=pl&sort_by=popularity.desc&page=1&timezone=America%2FNew_York&include_null_first_air_dates=false
+  const [searchTitle, setSearchTitle] = useState('')
+  
 
   // id gatunkow filmow = https://api.themoviedb.org/3/genre/movie/list?api_key=5164c32e4ce67e20eb6052f1f8215c14&language=pl
 
@@ -30,8 +30,10 @@ function App() {
   // po słowie = https://api.themoviedb.org/3/search/movie?api_key=5164c32e4ce67e20eb6052f1f8215c14&language=pl&query=titanic&page=1&include_adult=false
 
   const submitTitleHandler = (title) => {
-    console.log(title);
+    setSearchTitle(title);
   };
+
+  
 
   return (
     <div>

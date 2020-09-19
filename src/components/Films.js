@@ -45,7 +45,6 @@ const Films = (props) => {
         .then((data) => data.json())
         .then((res) => {
           setDefaultMovies(res.results);
-
           setLastPage(res.total_pages);
           setError(false);
           setLoading(false);

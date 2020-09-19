@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import styled from "styled-components";
 import logo from "../assets/images/tmdb.svg";
 import { NavLink, Link } from "react-router-dom";
+import SearchBar from './SearchBar';
 
 
 const StyledHeader = styled.header`
@@ -68,11 +69,6 @@ const LogoWrapper = styled(Link)`
 `;
 
 const NavBar = ({ submitted }) => {
-  const [inputValue, setInputValue] = useState("");
-
-  useEffect(() => {
-    submitted(inputValue);
-  }, [inputValue]);
 
   return (
     <FixedHeader>
@@ -93,12 +89,7 @@ const NavBar = ({ submitted }) => {
               <NavLink to="/genres">Gatunki</NavLink>
             </li>
           </StyledList>
-          <StyledInput
-            type="text"
-            placeholder="Type Movie Title..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
+          <SearchBar submitted={submitted}/>
         </StyledHeader>
       </Container>
     </FixedHeader>

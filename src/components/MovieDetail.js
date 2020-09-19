@@ -47,6 +47,14 @@ const StyledWrapper = styled.div`
         border-radius: 10px;
       }
     }
+    .production{
+      width:200px;
+      display:flex;
+      img{
+        width:10rem;
+        object-fit:contain;
+      }
+    }
   }
 `;
 
@@ -81,6 +89,8 @@ const MovieDetail = () => {
   genres = genres.map((genre, id) => {
     return <p key={id}>{genre}</p>;
   });
+
+ 
 
   return (
     <StyledWrapper>

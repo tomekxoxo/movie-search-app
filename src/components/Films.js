@@ -6,7 +6,6 @@ import debounce from "lodash.debounce";
 import Filter from "./Filter";
 
 const StyledGridContainer = styled.div`
-
   margin-bottom: 5rem;
   width: 100%;
   display: grid;
@@ -20,7 +19,7 @@ const Films = (props) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [lastPage, setLastPage] = useState(null);
-  const [filter, setFilter] = useState('popularity.desc');
+  const [filter, setFilter] = useState("popularity.desc");
 
   useEffect(() => {
     fetch(
@@ -28,33 +27,29 @@ const Films = (props) => {
     )
       .then((data) => data.json())
       .then((res) => {
+        setDefaultMovies((prevMovies) => [...prevMovies, ...res.results]);
 
-          setDefaultMovies((prevMovies) => [...prevMovies, ...res.results]);
-        
         setLastPage(res.total_pages);
         setError(false);
         setLoading(false);
       })
       .catch((err) => setError(`data couldn't be loaded...`));
-    
   }, [page]);
 
-
   useEffect(() => {
     fetch(
       `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
     )
       .then((data) => data.json())
       .then((res) => {
+        setDefaultMovies(res.results);
 
-          setDefaultMovies(res.results);
-        
         setLastPage(res.total_pages);
         setError(false);
         setLoading(false);
       })
       .catch((err) => setError(`data couldn't be loaded...`));
-  },[filter])
+  }, [filter]);
 
   let cards = defaultMovies.map((movie) => (
     <MovieCard
@@ -79,14 +74,12 @@ const Films = (props) => {
   }, 100);
 
   const onChangeFilter = (e) => {
-    setFilter(e.target.value)
-  }
-
-  
+    setFilter(e.target.value);
+  };
 
   return (
     <React.Fragment>
-      <Filter change={onChangeFilter}/>
+      <Filter change={onChangeFilter} />
       <StyledGridContainer>{cards}</StyledGridContainer>
     </React.Fragment>
   );

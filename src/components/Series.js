@@ -31,11 +31,8 @@ const Series = (props) => {
     [filter]
   );
 
-
-
-  if (filteredData.length > 1) {
-    console.log(filteredData);
-  }
+  //tu jest błąd chcę zapisać filteredData do stanu
+  setMergedData(data)
 
 
   const onChangeFilter = (e) => {
@@ -51,15 +48,8 @@ const Series = (props) => {
     }
   }, 100);
 
-  useEffect(() => {
-    console.log('page');
-  }, [page])
-  useEffect(() => {
-    console.log('filter');
-  },[page])
 
-
-  const cards = data.map((movie) => (
+  const cards = mergedData.map((movie) => (
     <MovieCard
       isMovie={false}
       key={movie.id}

@@ -3,15 +3,15 @@ import styled from "styled-components";
 import MovieCard from "./MovieCard";
 import { API_KEY, IMG_PATH } from "../App";
 import debounce from "lodash.debounce";
-
+import Filter from "./Filter";
 
 const StyledGridContainer = styled.div`
-  margin-top:10rem;
-  margin-bottom:5rem;
+
+  margin-bottom: 5rem;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  grid-gap: 3rem;  
+  grid-gap: 3rem;
 `;
 
 const Films = (props) => {
@@ -20,21 +20,41 @@ const Films = (props) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [lastPage, setLastPage] = useState(null);
+  const [filter, setFilter] = useState('popularity.desc');
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
     )
       .then((data) => data.json())
       .then((res) => {
-        setDefaultMovies(prevMovies => [...prevMovies, ...res.results]);
+
+          setDefaultMovies((prevMovies) => [...prevMovies, ...res.results]);
+        
         setLastPage(res.total_pages);
         setError(false);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((err) => setError(`data couldn't be loaded...`));
+    
   }, [page]);
 
+
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
+    )
+      .then((data) => data.json())
+      .then((res) => {
+
+          setDefaultMovies(res.results);
+        
+        setLastPage(res.total_pages);
+        setError(false);
+        setLoading(false);
+      })
+      .catch((err) => setError(`data couldn't be loaded...`));
+  },[filter])
 
   let cards = defaultMovies.map((movie) => (
     <MovieCard
@@ -51,17 +71,25 @@ const Films = (props) => {
 
   window.onscroll = debounce(() => {
     if (
-      window.innerHeight + document.documentElement.scrollTop
-      === document.documentElement.offsetHeight
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
     ) {
       page < lastPage && setPage(page + 1);
-      
     }
   }, 100);
 
+  const onChangeFilter = (e) => {
+    setFilter(e.target.value)
+  }
+
   
 
-  return <StyledGridContainer>{cards}</StyledGridContainer>;
+  return (
+    <React.Fragment>
+      <Filter change={onChangeFilter}/>
+      <StyledGridContainer>{cards}</StyledGridContainer>
+    </React.Fragment>
+  );
 };
 
 export default Films;

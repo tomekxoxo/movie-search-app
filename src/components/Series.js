@@ -3,48 +3,63 @@ import styled from "styled-components";
 import MovieCard from "./MovieCard";
 import { API_KEY, IMG_PATH } from "../App";
 import debounce from "lodash.debounce";
+import useFetch from "../hooks/useFetch";
+import useFetchFilter from "../hooks/useFetchFilter";
+import Filter from "./Filter";
 
 const StyledGridContainer = styled.div`
-  margin-top:10rem;
-  margin-bottom:5rem;
+  margin-bottom: 5rem;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  grid-gap: 3rem;  
+  grid-gap: 3rem;
 `;
 
 const Series = (props) => {
-  const [defaultMovies, setDefaultMovies] = useState([]);
-  const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [lastPage, setLastPage] = useState(null);
+  const [filter, setFilter] = useState("popularity.desc");
+  const [mergedData, setMergedData] = useState([]);
 
-  useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`
-    )
-      .then((data) => data.json())
-      .then((res) => {
-        setDefaultMovies(prevMovies => [...prevMovies, ...res.results]);
-        console.log(res);
-        setLastPage(res.total_pages);
-        setLoading(false)
-        setError(false);
-      })
-      .catch((err) => setError(`data couldn't be loaded...`));
-  }, [page]);
+  
+  const [data, lastPage] = useFetch(
+    `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`,
+    [page]
+  );
+
+  const [filteredData] = useFetchFilter(
+    `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`,
+    [filter]
+  );
+
+
+
+  if (filteredData.length > 1) {
+    console.log(filteredData);
+  }
+
+
+  const onChangeFilter = (e) => {
+    setFilter(e.target.value);
+  };
 
   window.onscroll = debounce(() => {
     if (
-      window.innerHeight + document.documentElement.scrollTop
-      === document.documentElement.offsetHeight
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
     ) {
       page < lastPage && setPage(page + 1);
     }
   }, 100);
 
-  let cards = defaultMovies.map((movie) => (
+  useEffect(() => {
+    console.log('page');
+  }, [page])
+  useEffect(() => {
+    console.log('filter');
+  },[page])
+
+
+  const cards = data.map((movie) => (
     <MovieCard
       isMovie={false}
       key={movie.id}
@@ -57,7 +72,12 @@ const Series = (props) => {
     />
   ));
 
-  return <StyledGridContainer>{cards}</StyledGridContainer>;
+  return (
+    <React.Fragment>
+      <Filter change={onChangeFilter} />
+      <StyledGridContainer>{cards}</StyledGridContainer>
+    </React.Fragment>
+  );
 };
 
 export default Series;

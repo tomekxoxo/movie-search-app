@@ -68,7 +68,7 @@ const MovieCard = (props) => {
       <StyledCard
         to={`${props.isMovie ? "movies" : "series"}/${props.movieId}`}
       >
-        <img src={props.poster} alt="move img" />
+        <img src={props.poster} alt="movie img" />
         <h1>{props.title}</h1>
         <p>
           <i className="material-icons">star</i>

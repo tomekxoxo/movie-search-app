@@ -2,13 +2,21 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import logo from "../assets/images/tmdb.svg";
 import { NavLink, Link } from "react-router-dom";
-import { Container } from "../App";
+
 
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
+
+const Container = styled.div`
+  width: 100%;
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+`;
+
 
 const FixedHeader = styled.div`
   position: fixed;

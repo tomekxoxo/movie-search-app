@@ -125,7 +125,7 @@ const SeriesDetail = () => {
       <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
       <div>
         <h1>
-          {defaultMovies.name}({dateStart}-{dateEnd})
+          {defaultMovies.name}({dateStart}-{!isNaN(dateEnd)&&dateEnd})
         </h1>
         <h1 className="genres">{genres}</h1>
         <p className="rating">

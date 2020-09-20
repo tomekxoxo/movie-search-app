@@ -6,6 +6,8 @@ import Films from "./components/Films";
 import Series from "./components/Series";
 import MovieDetail from "./components/MovieDetail";
 import SeriesDetail from "./components/SeriesDetail";
+import SearchMovie from "./components/SearchMovie";
+import SearchTv from "./components/SearchTv";
 
 export const Container = styled.div`
   width: 100%;
@@ -47,6 +49,8 @@ function App() {
           <Route path="/movies/:id" exact component={MovieDetail} />
           <Route path="/series" exact component={Series} />
           <Route path="/series/:id" exact component={SeriesDetail} />
+          <Route path="/search/tv/:id" exact component={SearchTv} />
+          <Route path="/search/movies/:id" exact component={SearchMovie} />
         </Container>
       </Switch>
     </div>

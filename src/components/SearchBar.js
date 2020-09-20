@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const StyledInput = styled.input`
   outline: none;
@@ -15,6 +16,8 @@ const StyledList = styled.div`
   position: absolute;
   background-color: rgba(255,255,255,.96);
   width: 100%;
+  max-height:300px;
+  overflow-y:scroll;
   color: black;
   font-size: 1.4rem;
   ul {
@@ -22,14 +25,12 @@ const StyledList = styled.div`
       margin: 0.8rem 0;
       padding: 0 0.5rem;
       a {
-        /* border: 1px solid black;
-        text-decoration: none; */
         color: black;
         display: block;
         &:hover, &:focus{
         color:white;
         background-color:black;
-      }
+      
       }
       
     }
@@ -37,7 +38,6 @@ const StyledList = styled.div`
 `;
 
 const SearchBar = ({ submitted }) => {
-  
   const [inputValue, setInputValue] = useState("");
   const [data, setData] = useState([]);
   const [showList, setShowList] = useState(false);
@@ -56,6 +56,7 @@ const SearchBar = ({ submitted }) => {
         .then((res) => {
           setData([]);
           setData(res.results);
+          /* console.log(res.results); */
         })
         .catch((err) => err);
     } else {
@@ -63,15 +64,22 @@ const SearchBar = ({ submitted }) => {
     }
   }, [inputValue]);
 
-
   let listItem;
   if (data != undefined) {
     listItem = data.map((element) => {
+      let link = ''
+      if (element.media_type == 'tv') {
+        link = `/search/tv/${encodeURIComponent(element.original_name)}`
+      }
+      else {
+        link = `/search/movies/${encodeURIComponent(element.title)}`
+      }
+       
       return (
         <li key={element.id}>
-          <a href="#">
+          <Link to={link} >
             {element.title ? element.title : element.original_name}
-          </a>
+          </Link>
         </li>
       );
     });
@@ -79,10 +87,9 @@ const SearchBar = ({ submitted }) => {
 
   const renderList = () => {
     if (listItem !== undefined && showList) {
-      return listItem
+      return listItem;
     }
-  }
-
+  };
 
   return (
     <React.Fragment>
@@ -92,13 +99,11 @@ const SearchBar = ({ submitted }) => {
           placeholder="Type Movie Title..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          onFocus={()=>setShowList(true)}
-          onBlur={()=>setShowList(false)}
+          onFocus={() => setShowList(true)}
+          onBlur={() => setTimeout(()=>{setShowList(false)}, 100)} 
         />
         <StyledList isEmpty={inputValue}>
-          <ul>
-            {renderList()}
-          </ul>
+          <ul>{renderList()}</ul>
         </StyledList>
       </div>
     </React.Fragment>

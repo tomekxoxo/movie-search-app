@@ -1,4 +1,4 @@
-[
+const genres = [
   {
     "id": 28,
     "name": "Akcja"
@@ -76,3 +76,4 @@
     "name": "Western"
   }
 ]
+export default genres;

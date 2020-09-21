@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_KEY, IMG_PATH } from "../App";
 import styled from "styled-components";
+import genres from './common/genres';
 
 const StyledWrapper = styled.div`
   margin-top: 10rem;
@@ -9,19 +10,19 @@ const StyledWrapper = styled.div`
   height: 100%;
   position: relative;
   display: flex;
-  @media screen and (max-width:768px){
-    flex-direction:column;
-    img{
-      object-fit:contain;
-      width:100%;
-      height:auto;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    img {
+      object-fit: contain;
+      width: 100%;
+      height: auto;
     }
-    .info{
-      padding-top:5rem;
-      width:100%;
-      padding-bottom:5rem;
-      h1{
-        text-align:center;
+    .info {
+      padding-top: 5rem;
+      width: 100%;
+      padding-bottom: 5rem;
+      h1 {
+        text-align: center;
       }
     }
   }
@@ -71,6 +72,11 @@ const StyledWrapper = styled.div`
         object-fit: contain;
       }
     }
+    .release-date {
+      i {
+        padding-right: 1rem;
+      }
+    }
   }
 `;
 
@@ -93,9 +99,19 @@ const SearchMovie = (props) => {
       .catch((err) => setError(`data couldn't be loaded...`));
   }, [id]);
 
+
   let parsedData;
 
   parsedData = defaultMovies.map((defaultMovies) => {
+    const genreArr = defaultMovies.genre_ids;
+    let genreFound = []
+    genreFound = genreArr.map(genreId => {
+      return genres.map(element => {
+        if (genreId == element.id) {
+          return <p key={element.id}>{element.name}</p>
+        }
+      })
+    })
     return (
       <React.Fragment key={defaultMovies.id}>
         <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
@@ -104,22 +120,22 @@ const SearchMovie = (props) => {
             {defaultMovies.title}(
             {new Date(defaultMovies.release_date).getFullYear()})
           </h1>
+          <h1 className="genres">{genreFound}</h1>
           <p className="rating">
             <i className="material-icons">star</i>
             {defaultMovies.vote_average}
           </p>
-          <p>{defaultMovies.release_date}</p>
+          <p className="release-date">
+            <i className="fas fa-video"></i>
+            {defaultMovies.release_date}
+          </p>
           <p>{defaultMovies.overview}</p>
         </div>
       </React.Fragment>
     );
   });
 
-  return (
-    <StyledWrapper>
-      {parsedData}
-    </StyledWrapper>
-  );
+  return <StyledWrapper>{parsedData}</StyledWrapper>;
 };
 
 export default SearchMovie;

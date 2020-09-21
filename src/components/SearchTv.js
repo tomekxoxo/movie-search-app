@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_KEY, IMG_PATH } from "../App";
+import genres from './common/genres';
 import styled from "styled-components";
 
 const StyledWrapper = styled.div`
@@ -71,6 +72,11 @@ const StyledWrapper = styled.div`
         object-fit: contain;
       }
     }
+    .release-date{
+      i{
+        padding-right:1rem;
+      }
+    }
   }
 `;
 
@@ -99,6 +105,15 @@ const SearchTv = (props) => {
   parsedData = defaultMovies.map((defaultMovies) => {
     const dateStart = new Date(defaultMovies.first_air_date).getFullYear();
     const dateEnd = new Date(defaultMovies.last_air_date).getFullYear();
+    const genreArr = defaultMovies.genre_ids;
+    let genreFound = []
+    genreFound = genreArr.map(genreId => {
+      return genres.map(element => {
+        if (genreId == element.id) {
+          return <p key={element.id}>{element.name}</p>
+        }
+      })
+    })
 
     return (
       <React.Fragment key={defaultMovies.id}>
@@ -107,11 +122,11 @@ const SearchTv = (props) => {
           <h1>
             {defaultMovies.original_name}({dateStart}-{!isNaN(dateEnd)&&dateEnd})
           </h1>
+          <h1 className="genres">{genreFound}</h1>
           <p className="rating">
             <i className="material-icons">star</i>
             {defaultMovies.vote_average}
           </p>
-          <p>{defaultMovies.release_date}</p>
           <p>{defaultMovies.overview}</p>
         </div>
       </React.Fragment>

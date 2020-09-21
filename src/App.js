@@ -36,7 +36,6 @@ function App() {
 
   //id gatunkow seriali https://api.themoviedb.org/3/genre/tv/list?api_key=5164c32e4ce67e20eb6052f1f8215c14&language=pl
 
-  // po słowie = https://api.themoviedb.org/3/search/movie?api_key=5164c32e4ce67e20eb6052f1f8215c14&language=pl&query=titanic&page=1&include_adult=false
 
   const submitTitleHandler = (title) => {
     setSearchTitle(title);

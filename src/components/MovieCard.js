@@ -6,7 +6,7 @@ import {IMG_PATH } from "../App";
 
 const StyledCard = styled(Link)`
   width: 100%;
-  height: 45rem;
+  height: auto;
   position: relative;
   text-align: center;
   display: flex;

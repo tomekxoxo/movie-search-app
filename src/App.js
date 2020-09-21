@@ -54,8 +54,8 @@ function App() {
       {sideDrawer && <SideDrawer submitted={submitTitleHandler} toggleSideDrawer={toggledSideDrawerHandler} isOpen={sideDrawer}/>}
       <Switch>
         <Container>
-          <Route path="/" exact>
-            <Redirect to="/movies" />
+          <Route path={process.env.PUBLIC_URL + '/'} exact>
+            <Redirect to={process.env.PUBLIC_URL + '/movies'} />
           </Route>
           <Route path={process.env.PUBLIC_URL + '/movies'} exact component={Films} />
           <Route path={process.env.PUBLIC_URL + "/movies/:id"} exact component={MovieDetail} />

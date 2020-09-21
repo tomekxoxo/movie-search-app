@@ -66,7 +66,7 @@ const NavBar = ({ submitted, toggleSideDrawer }) => {
     <FixedHeader>
       <Container>
         <StyledHeader>
-          <LogoWrapper to={process.env.PUBLIC_URL + '/movies'}>
+          <LogoWrapper to={process.env.PUBLIC_URL + '/'}>
             <img src={logo} alt="api provider logo" />
           </LogoWrapper>
 

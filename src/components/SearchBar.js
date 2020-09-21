@@ -79,9 +79,13 @@ const SearchBar = ({ submitted, isOpen }) => {
     listItem = data.map((element) => {
       let link = "";
       if (element.media_type == "tv") {
-        link = `/series/search/tv/${encodeURIComponent(element.original_name)}`;
+        link = `${process.env.PUBLIC_URL}/series/search/tv/${encodeURIComponent(
+          element.original_name
+        )}`;
       } else {
-        link = `/movies/search/movies/${encodeURIComponent(element.title)}`;
+        link = `${
+          process.env.PUBLIC_URL
+        }/movies/search/movies/${encodeURIComponent(element.title)}`;
       }
 
       return (

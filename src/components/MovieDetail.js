@@ -9,6 +9,22 @@ const StyledWrapper = styled.div`
   height: 100%;
   position: relative;
   display: flex;
+  @media screen and (max-width:768px){
+    flex-direction:column;
+    img{
+      object-fit:contain;
+      width:100%;
+      height:auto;
+    }
+    .info{
+      padding-top:5rem;
+      width:100%;
+      padding-bottom:5rem;
+      h1{
+        /* text-align:center; */
+      }
+    }
+  }
   div {
     width:50%;
     flex-grow: 1;
@@ -38,21 +54,14 @@ const StyledWrapper = styled.div`
       margin-top: 1rem;
       font-weight: normal;
       display: flex;
+      flex-wrap:wrap;
       justify-content: center;
       align-items: center;
       p {
         padding: 0.5rem 1rem;
-        margin-right: 1rem;
+        margin: 1rem 1rem 0 0;
         background-color: #cfb53b;
         border-radius: 10px;
-      }
-    }
-    .production{
-      width:200px;
-      display:flex;
-      img{
-        width:10rem;
-        object-fit:contain;
       }
     }
   }
@@ -62,7 +71,6 @@ const MovieDetail = () => {
   let { id } = useParams();
 
   const [defaultMovies, setDefaultMovies] = useState([]);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -71,14 +79,9 @@ const MovieDetail = () => {
       .then((data) => data.json())
       .then((res) => {
         setDefaultMovies(res);
-        setError(false);
       })
-      .catch((err) => setError(`data couldn't be loaded...`));
+      .catch((err) => err);
   }, []);
-
-  useEffect(() => {
-    console.log(defaultMovies);
-  }, [defaultMovies]);
 
   let genres = [];
 
@@ -95,7 +98,7 @@ const MovieDetail = () => {
   return (
     <StyledWrapper>
       <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
-      <div>
+      <div className="info">
         <h1>
           {defaultMovies.title}(
           {new Date(defaultMovies.release_date).getFullYear()})

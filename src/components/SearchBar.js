@@ -20,11 +20,13 @@ const StyledList = styled.div`
   overflow-y:scroll;
   color: black;
   font-size: 1.4rem;
+
   ul {
     li {
       margin: 0.8rem 0;
       padding: 0 0.5rem;
       a {
+        width:100%;
         color: black;
         display: block;
         &:hover, &:focus{
@@ -37,11 +39,20 @@ const StyledList = styled.div`
   }
 `;
 
-const SearchBar = ({ submitted }) => {
+const InputWrapper = styled.div`
+  position: relative;
+
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+`;
+
+const SearchBar = ({ submitted, isOpen }) => {
   const [inputValue, setInputValue] = useState("");
   const [data, setData] = useState([]);
   const [showList, setShowList] = useState(false);
   const didMountRef = useRef(false);
+  const isMountedRef = useRef(null);
 
   useEffect(() => {
     submitted(inputValue);
@@ -56,7 +67,6 @@ const SearchBar = ({ submitted }) => {
         .then((res) => {
           setData([]);
           setData(res.results);
-          /* console.log(res.results); */
         })
         .catch((err) => err);
     } else {
@@ -67,17 +77,16 @@ const SearchBar = ({ submitted }) => {
   let listItem;
   if (data != undefined) {
     listItem = data.map((element) => {
-      let link = ''
-      if (element.media_type == 'tv') {
-        link = `/search/tv/${encodeURIComponent(element.original_name)}`
+      let link = "";
+      if (element.media_type == "tv") {
+        link = `/series/search/tv/${encodeURIComponent(element.original_name)}`;
+      } else {
+        link = `/movies/search/movies/${encodeURIComponent(element.title)}`;
       }
-      else {
-        link = `/search/movies/${encodeURIComponent(element.title)}`
-      }
-       
+
       return (
         <li key={element.id}>
-          <Link to={link} >
+          <Link to={link}>
             {element.title ? element.title : element.original_name}
           </Link>
         </li>
@@ -91,21 +100,29 @@ const SearchBar = ({ submitted }) => {
     }
   };
 
+  const hideListHandler = () => {
+    if (!isOpen) {
+      setTimeout(() => {
+        setShowList(false);
+      }, 100);
+    }
+  };
+
   return (
     <React.Fragment>
-      <div style={{ position: "relative" }}>
+      <InputWrapper>
         <StyledInput
           type="text"
           placeholder="Type Movie Title..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onFocus={() => setShowList(true)}
-          onBlur={() => setTimeout(()=>{setShowList(false)}, 100)} 
+          onBlur={hideListHandler}
         />
         <StyledList isEmpty={inputValue}>
           <ul>{renderList()}</ul>
         </StyledList>
-      </div>
+      </InputWrapper>
     </React.Fragment>
   );
 };

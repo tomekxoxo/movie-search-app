@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Container } from "../App";
 
@@ -23,13 +23,6 @@ const StyledFilter = styled.div`
 `;
 
 const Filter = ({ change }) => {
-
-  // const [filter, setFilter] = useState('popularity.desc')
-
-
-  // const handleChange = (e)=> {
-  //   setFilter(e.target.value)
-  // }
 
   return (
     <Container>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import styled from "styled-components";
 import MovieCard from "./MovieCard";
 import { API_KEY, IMG_PATH } from "../App";
@@ -15,12 +15,10 @@ const StyledGridContainer = styled.div`
 
 const Films = (props) => {
   const [defaultMovies, setDefaultMovies] = useState([]);
-  const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
   const [lastPage, setLastPage] = useState(null);
   const [filter, setFilter] = useState("popularity.desc");
-  const didMountRef = useRef(false);
+
 
   useEffect(() => {
     fetch(
@@ -29,30 +27,21 @@ const Films = (props) => {
       .then((data) => data.json())
       .then((res) => {
         setDefaultMovies((prevMovies) => [...prevMovies, ...res.results]);
-
         setLastPage(res.total_pages);
-        setError(false);
-        setLoading(false);
       })
-      .catch((err) => setError(`data couldn't be loaded...`));
+      .catch((err) => err);
   }, [page]);
 
   useEffect(() => {
-    if (didMountRef.current) {
-      fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
-      )
-        .then((data) => data.json())
-        .then((res) => {
-          setDefaultMovies(res.results);
-          setLastPage(res.total_pages);
-          setError(false);
-          setLoading(false);
-        })
-        .catch((err) => setError(`data couldn't be loaded...`));
-    } else {
-      didMountRef.current = true;
-    }
+    fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
+    )
+      .then((data) => data.json())
+      .then((res) => {
+        setDefaultMovies(res.results);
+        setLastPage(res.total_pages);
+      })
+      .catch((err) => err);
   }, [filter]);
 
   let cards = defaultMovies.map((movie) => (
@@ -63,19 +52,21 @@ const Films = (props) => {
       movieId={movie.id}
       title={movie.title}
       desc={movie.overview}
-      poster={`${IMG_PATH}${movie.poster_path}`}
+      poster={movie.poster_path}
       avg={movie.vote_average}
     />
   ));
 
-  window.onscroll = debounce(() => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
-    ) {
-      page < lastPage && setPage(page + 1);
-    }
-  }, 100);
+
+    window.onscroll = debounce(() => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.offsetHeight
+      ) {
+        page < lastPage && setPage(page + 1);
+      }
+    }, 100);
+  
 
   const onChangeFilter = (e) => {
     setFilter(e.target.value);

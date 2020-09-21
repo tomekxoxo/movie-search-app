@@ -9,6 +9,22 @@ const StyledWrapper = styled.div`
   height: 100%;
   position: relative;
   display: flex;
+  @media screen and (max-width:768px){
+    flex-direction:column;
+    img{
+      object-fit:contain;
+      width:100%;
+      height:auto;
+    }
+    .info{
+      padding-top:5rem;
+      width:100%;
+      padding-bottom:5rem;
+      h1{
+        text-align:center;
+      }
+    }
+  }
   div {
     width: 50%;
     flex-grow: 1;
@@ -42,7 +58,7 @@ const StyledWrapper = styled.div`
       align-items: center;
       p {
         padding: 0.5rem 1rem;
-        margin-right: 1rem;
+        margin: 1rem 1rem 0 0;
         background-color: #cfb53b;
         border-radius: 10px;
       }
@@ -72,21 +88,11 @@ const SearchTv = (props) => {
       .then((res) => {
         const firsRecord = [res.results[0]];
         setDefaultMovies(firsRecord);
-        console.log(firsRecord);
         setError(false);
       })
       .catch((err) => setError(`data couldn't be loaded...`));
   }, [id]);
 
-  let genres = [];
-
-  for (let key in defaultMovies.genre_ids) {
-    genres.push(defaultMovies.genre_ids[key].name);
-  }
-
-  genres = genres.map((genre, id) => {
-    return <p key={id}>{genre}</p>;
-  });
 
   let parsedData;
 
@@ -97,7 +103,7 @@ const SearchTv = (props) => {
     return (
       <React.Fragment key={defaultMovies.id}>
         <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
-        <div>
+        <div className="info">
           <h1>
             {defaultMovies.original_name}({dateStart}-{!isNaN(dateEnd)&&dateEnd})
           </h1>
@@ -106,8 +112,6 @@ const SearchTv = (props) => {
             {defaultMovies.vote_average}
           </p>
           <p>{defaultMovies.release_date}</p>
-          <p>{defaultMovies.runtime} min</p>
-
           <p>{defaultMovies.overview}</p>
         </div>
       </React.Fragment>

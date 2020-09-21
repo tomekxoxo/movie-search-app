@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
+import ImageNotFound from '../assets/images/image-not-found.png';
+import {IMG_PATH } from "../App";
 
 const StyledCard = styled(Link)`
   width: 100%;
@@ -70,7 +72,7 @@ const MovieCard = (props) => {
       <StyledCard
         to={`${props.isMovie ? "movies" : "series"}/${props.movieId}`}
       >
-        <img src={props.poster} alt="movie img" />
+        {props.poster ? <img src={`${IMG_PATH}${props.poster}`} alt="movie img" /> : <img style={{objectFit:'contain'}} src={ImageNotFound} alt="movie img" />}
         <h1>{props.title}</h1>
         <p>
           <i className="material-icons">star</i>

@@ -1,8 +1,9 @@
-import React, { useState} from "react";
+import React from "react";
 import styled from "styled-components";
 import logo from "../assets/images/tmdb.svg";
 import { NavLink, Link } from "react-router-dom";
 import SearchBar from './SearchBar';
+import SIdeDrawerButton from './SideDrawerButton';
 
 
 const StyledHeader = styled.header`
@@ -28,15 +29,6 @@ const FixedHeader = styled.div`
   background-color:rgba(255,255,255,0.97)
 `;
 
-const StyledInput = styled.input`
-  outline: none;
-  border: none;
-  padding: 1rem 0.5rem;
-  font-size: 1.5rem;
-  background-color: transparent;
-  border-bottom: 2px solid black;
-`;
-
 const StyledList = styled.ul`
   display: flex;
   justify-content: space-evenly;
@@ -51,7 +43,7 @@ const StyledList = styled.ul`
       }
     }
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     display: none;
   }
   .active {
@@ -68,7 +60,7 @@ const LogoWrapper = styled(Link)`
   }
 `;
 
-const NavBar = ({ submitted }) => {
+const NavBar = ({ submitted, toggleSideDrawer }) => {
 
   return (
     <FixedHeader>
@@ -85,10 +77,8 @@ const NavBar = ({ submitted }) => {
             <li>
               <NavLink to="/series">Seriale</NavLink>
             </li>
-            <li>
-              <NavLink to="/genres">Gatunki</NavLink>
-            </li>
           </StyledList>
+          <SIdeDrawerButton type="fas fa-bars" clicked={toggleSideDrawer}/>
           <SearchBar submitted={submitted}/>
         </StyledHeader>
       </Container>

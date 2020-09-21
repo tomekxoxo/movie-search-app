@@ -9,6 +9,22 @@ const StyledWrapper = styled.div`
   height: 100%;
   position: relative;
   display: flex;
+  @media screen and (max-width:768px){
+    flex-direction:column;
+    img{
+      object-fit:contain;
+      width:100%;
+      height:auto;
+    }
+    .info{
+      padding-top:5rem;
+      width:100%;
+      padding-bottom:5rem;
+      h1{
+        text-align:center;
+      }
+    }
+  }
   div {
     width:50%;
     display: flex;
@@ -34,6 +50,7 @@ const StyledWrapper = styled.div`
       padding: 2rem 2rem 0;
     }
     .genres {
+      flex-wrap:wrap;
       margin-top: 1rem;
       font-weight: normal;
       display: flex;
@@ -42,7 +59,7 @@ const StyledWrapper = styled.div`
       align-items: center;
       p {
         padding: 0.5rem 1rem;
-        margin-top: 1rem;
+        margin: 1rem 1rem 0 0;
         margin-right: 1rem;
         background-color: #cfb53b;
         border-radius: 10px;
@@ -86,10 +103,6 @@ const SeriesDetail = () => {
       .catch((err) => setError(`data couldn't be loaded...`));
   }, []);
 
-  // useEffect(() => {
-  //   console.log(defaultMovies);
-  // }, [defaultMovies]);
-
   let genres = [];
 
   for (let key in defaultMovies.genres) {
@@ -123,7 +136,7 @@ const SeriesDetail = () => {
   return (
     <StyledWrapper>
       <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
-      <div>
+      <div className="info">
         <h1>
           {defaultMovies.name}({dateStart}-{!isNaN(dateEnd)&&dateEnd})
         </h1>

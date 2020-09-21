@@ -57,12 +57,12 @@ function App() {
           <Route path="/" exact>
             <Redirect to="/movies" />
           </Route>
-          <Route path="/movies" exact component={Films} />
-          <Route path="/movies/:id" exact component={MovieDetail} />
-          <Route path="/series" exact component={Series} />
-          <Route path="/series/:id" exact component={SeriesDetail} />
-          <Route path="/series/search/tv/:id" exact component={SearchTv} />
-          <Route path="/movies/search/movies/:id" exact component={SearchMovie} />
+          <Route path={process.env.PUBLIC_URL + '/movies'} exact component={Films} />
+          <Route path={process.env.PUBLIC_URL + "/movies/:id"} exact component={MovieDetail} />
+          <Route path={process.env.PUBLIC_URL + "/series"} exact component={Series} />
+          <Route path={process.env.PUBLIC_URL + "/series/:id"} exact component={SeriesDetail} />
+          <Route path={process.env.PUBLIC_URL + "/series/search/tv/:id"} exact component={SearchTv} />
+          <Route path={process.env.PUBLIC_URL + "/movies/search/movies/:id"} exact component={SearchMovie} />
         </Container>
       </Switch>
     </div>

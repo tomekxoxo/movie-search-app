@@ -46,10 +46,10 @@ const SideDrawer = (props) => {
       <SearchBar submitted={props.submitted} isOpen={props.isOpen}/>
       <ul>
         <li>
-          <NavLink to="/movies">Filmy</NavLink>
+          <NavLink to={process.env.PUBLIC_URL + '/movies'}>Filmy</NavLink>
         </li>
         <li>
-          <NavLink to="/series">Seriale</NavLink>
+          <NavLink to={process.env.PUBLIC_URL + '/series'}>Seriale</NavLink>
         </li>
       </ul>
     </StyledDrawer>

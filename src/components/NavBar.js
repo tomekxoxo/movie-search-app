@@ -66,16 +66,16 @@ const NavBar = ({ submitted, toggleSideDrawer }) => {
     <FixedHeader>
       <Container>
         <StyledHeader>
-          <LogoWrapper to="/">
+          <LogoWrapper to={process.env.PUBLIC_URL + '/'}>
             <img src={logo} alt="api provider logo" />
           </LogoWrapper>
 
           <StyledList>
             <li>
-              <NavLink to="/movies">Filmy</NavLink>
+              <NavLink to={process.env.PUBLIC_URL + '/movies'}>Filmy</NavLink>
             </li>
             <li>
-              <NavLink to="/series">Seriale</NavLink>
+              <NavLink to={process.env.PUBLIC_URL + "/series"}>Seriale</NavLink>
             </li>
           </StyledList>
           <SIdeDrawerButton type="fas fa-bars" clicked={toggleSideDrawer}/>

@@ -1,18 +1,12 @@
 import React, { useState, useEffect} from "react";
-import styled from "styled-components";
 import MovieCard from "./MovieCard";
 import { API_KEY, IMG_PATH } from "../App";
 import debounce from "lodash.debounce";
 import Filter from "./Filter";
 import Loader from './Loader';
+import StyledGridContainer from './common/StyledGridContainer'
 
-const StyledGridContainer = styled.div`
-  margin-bottom: 5rem;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  grid-gap: 3rem;
-`;
+
 
 const Films = (props) => {
   const [defaultMovies, setDefaultMovies] = useState([]);

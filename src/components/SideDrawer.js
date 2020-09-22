@@ -23,9 +23,14 @@ const StyledDrawer = styled.div`
   div {
     @media screen and (max-width: 768px) {
       display: block !important;
+      order:2;
     }
   }
   ul {
+    @media screen and (max-width: 768px) {
+      order:3;
+    }
+    
     margin-bottom:5rem;
     
     li {

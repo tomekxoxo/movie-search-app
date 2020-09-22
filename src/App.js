@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import Films from "./components/Films";
 import Series from "./components/Series";
+import Auth from "./components/Auth";
 import MovieDetail from "./components/MovieDetail";
 import SeriesDetail from "./components/SeriesDetail";
 import SearchMovie from "./components/SearchMovie";
@@ -56,6 +57,7 @@ function App() {
           <Route path={process.env.PUBLIC_URL + '/'} exact>
             <Redirect to={process.env.PUBLIC_URL + '/movies'} />
           </Route>
+          <Route path={process.env.PUBLIC_URL + '/auth'} exact component={Auth} />
           <Route path={process.env.PUBLIC_URL + '/movies'} exact component={Films} />
           <Route path={process.env.PUBLIC_URL + "/movies/:id"} exact component={MovieDetail} />
           <Route path={process.env.PUBLIC_URL + "/series"} exact component={Series} />

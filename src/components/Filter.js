@@ -28,12 +28,12 @@ const Filter = ({ change }) => {
     <Container>
       <StyledFilter>
         <select onChange={change} >
-          <option value="popularity.desc">Popularności: od najwyższej</option>
-          <option value="popularity.asc">Popularności: od najniższej</option>
+          <option value="popularity.desc">Popularność: od najwyższej</option>
+          <option value="popularity.asc">Popularność: od najniższej</option>
           <option value="vote_average.desc">Średnia ocen: od najwyższej</option>
           <option value="vote_average.asc">Średnia ocen: od najniższej</option>
           <option value="vote_count.asc">Ilość ocen: od najniższej</option>
-          <option value="vote_count.desc" >Ilość ocen: od nawyższej</option>
+          <option value="vote_count.desc" >Ilość ocen: od najwyższej</option>
         </select>
       </StyledFilter>
     </Container>

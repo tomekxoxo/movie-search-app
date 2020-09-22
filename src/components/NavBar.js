@@ -2,14 +2,28 @@ import React from "react";
 import styled from "styled-components";
 import logo from "../assets/images/tmdb.svg";
 import { NavLink, Link } from "react-router-dom";
-import SearchBar from './SearchBar';
-import SIdeDrawerButton from './SideDrawerButton';
-
+import SearchBar from "./SearchBar";
+import SIdeDrawerButton from "./SideDrawerButton";
+import LoginImg from "../assets/images/login.png";
 
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  .login {
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    img {
+      width: 3rem;
+      margin-right: 0.5rem;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .login {
+      order: 2;
+    }
+  }
 `;
 
 const Container = styled.div`
@@ -19,14 +33,13 @@ const Container = styled.div`
   padding: 0 1rem;
 `;
 
-
 const FixedHeader = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index:200;
-  background-color:rgba(255,255,255,0.97)
+  z-index: 200;
+  background-color: rgba(255, 255, 255, 0.97);
 `;
 
 const StyledList = styled.ul`
@@ -52,6 +65,9 @@ const StyledList = styled.ul`
   }
 `;
 const LogoWrapper = styled(Link)`
+  @media screen and (max-width: 767px) {
+    order: 1;
+  }
   width: 12rem;
   margin-top: 1rem;
   img {
@@ -61,25 +77,28 @@ const LogoWrapper = styled(Link)`
 `;
 
 const NavBar = ({ submitted, toggleSideDrawer }) => {
-
   return (
     <FixedHeader>
       <Container>
         <StyledHeader>
-          <LogoWrapper to={process.env.PUBLIC_URL + '/'}>
+          <LogoWrapper to={process.env.PUBLIC_URL + "/"}>
             <img src={logo} alt="api provider logo" />
           </LogoWrapper>
 
           <StyledList>
             <li>
-              <NavLink to={process.env.PUBLIC_URL + '/movies'}>Filmy</NavLink>
+              <NavLink to={process.env.PUBLIC_URL + "/movies"}>Filmy</NavLink>
             </li>
             <li>
               <NavLink to={process.env.PUBLIC_URL + "/series"}>Seriale</NavLink>
             </li>
           </StyledList>
-          <SIdeDrawerButton type="fas fa-bars" clicked={toggleSideDrawer}/>
-          <SearchBar submitted={submitted}/>
+          <SIdeDrawerButton type="fas fa-bars" clicked={toggleSideDrawer} />
+          <SearchBar submitted={submitted} />
+          <NavLink to={process.env.PUBLIC_URL + "/auth"} className="login">
+            <img src={LoginImg} alt="login img" />
+            <p>Zaloguj się</p>
+          </NavLink>
         </StyledHeader>
       </Container>
     </FixedHeader>

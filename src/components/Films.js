@@ -4,6 +4,7 @@ import MovieCard from "./MovieCard";
 import { API_KEY, IMG_PATH } from "../App";
 import debounce from "lodash.debounce";
 import Filter from "./Filter";
+import Loader from './Loader';
 
 const StyledGridContainer = styled.div`
   margin-bottom: 5rem;
@@ -18,6 +19,7 @@ const Films = (props) => {
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(null);
   const [filter, setFilter] = useState("popularity.desc");
+  const [loading, setLoading] = useState(true)
 
 
   useEffect(() => {
@@ -28,11 +30,13 @@ const Films = (props) => {
       .then((res) => {
         setDefaultMovies((prevMovies) => [...prevMovies, ...res.results]);
         setLastPage(res.total_pages);
+        setLoading(false)
       })
       .catch((err) => err);
   }, [page]);
 
   useEffect(() => {
+    setLoading(true)
     fetch(
       `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
     )
@@ -40,6 +44,7 @@ const Films = (props) => {
       .then((res) => {
         setDefaultMovies(res.results);
         setLastPage(res.total_pages);
+        setLoading(false)
       })
       .catch((err) => err);
   }, [filter]);
@@ -75,6 +80,7 @@ const Films = (props) => {
   return (
     <React.Fragment>
       <Filter change={onChangeFilter} />
+      {loading &&<Loader />}
       <StyledGridContainer>{cards}</StyledGridContainer>
     </React.Fragment>
   );

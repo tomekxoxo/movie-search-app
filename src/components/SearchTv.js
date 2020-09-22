@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { API_KEY, IMG_PATH } from "../App";
 import genres from './common/genres';
 import styled from "styled-components";
+import Loader from "./Loader";
 
 const StyledWrapper = styled.div`
   margin-top: 10rem;
@@ -85,6 +86,7 @@ const SearchTv = (props) => {
 
   const [defaultMovies, setDefaultMovies] = useState([]);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(
@@ -95,6 +97,7 @@ const SearchTv = (props) => {
         const firsRecord = [res.results[0]];
         setDefaultMovies(firsRecord);
         setError(false);
+        setLoading(false)
       })
       .catch((err) => setError(`data couldn't be loaded...`));
   }, [id]);
@@ -133,7 +136,11 @@ const SearchTv = (props) => {
     );
   });
 
-  return <StyledWrapper>{parsedData}</StyledWrapper>;
+  if (loading) {
+    return <Loader />;
+  } else {
+    return <StyledWrapper>{parsedData}</StyledWrapper>;
+  }
 };
 
 export default SearchTv;

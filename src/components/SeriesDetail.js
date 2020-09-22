@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_KEY, IMG_PATH } from "../App";
 import styled from "styled-components";
+import Loader from "./Loader";
 
 const StyledWrapper = styled.div`
   margin-top: 10rem;
@@ -9,24 +10,24 @@ const StyledWrapper = styled.div`
   height: 100%;
   position: relative;
   display: flex;
-  @media screen and (max-width:768px){
-    flex-direction:column;
-    img{
-      object-fit:contain;
-      width:100%;
-      height:auto;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    img {
+      object-fit: contain;
+      width: 100%;
+      height: auto;
     }
-    .info{
-      padding-top:5rem;
-      width:100%;
-      padding-bottom:5rem;
-      h1{
-        text-align:center;
+    .info {
+      padding-top: 5rem;
+      width: 100%;
+      padding-bottom: 5rem;
+      h1 {
+        text-align: center;
       }
     }
   }
   div {
-    width:50%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,7 +51,7 @@ const StyledWrapper = styled.div`
       padding: 2rem 2rem 0;
     }
     .genres {
-      flex-wrap:wrap;
+      flex-wrap: wrap;
       margin-top: 1rem;
       font-weight: normal;
       display: flex;
@@ -90,6 +91,7 @@ const SeriesDetail = () => {
 
   const [defaultMovies, setDefaultMovies] = useState([]);
   const [error, setError] = useState(false);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     fetch(
@@ -99,6 +101,7 @@ const SeriesDetail = () => {
       .then((res) => {
         setDefaultMovies(res);
         setError(false);
+        setLoader(false);
       })
       .catch((err) => setError(`data couldn't be loaded...`));
   }, []);
@@ -133,24 +136,28 @@ const SeriesDetail = () => {
   const dateStart = new Date(defaultMovies.first_air_date).getFullYear();
   const dateEnd = new Date(defaultMovies.last_air_date).getFullYear();
 
-  return (
-    <StyledWrapper>
-      <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
-      <div className="info">
-        <h1>
-          {defaultMovies.name}({dateStart}-{!isNaN(dateEnd)&&dateEnd})
-        </h1>
-        <h1 className="genres">{genres}</h1>
-        <p className="rating">
-          <i className="material-icons">star</i>
-          {defaultMovies.vote_average}
-        </p>
-        <h1 className="seasons">{seasons}</h1>
-        <p>{defaultMovies.release_date}</p>
-        <p>{defaultMovies.overview}</p>
-      </div>
-    </StyledWrapper>
-  );
+  if (loader) {
+    return <Loader />;
+  } else {
+    return (
+      <StyledWrapper>
+        <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
+        <div className="info">
+          <h1>
+            {defaultMovies.name}({dateStart}-{!isNaN(dateEnd) && dateEnd})
+          </h1>
+          <h1 className="genres">{genres}</h1>
+          <p className="rating">
+            <i className="material-icons">star</i>
+            {defaultMovies.vote_average}
+          </p>
+          <h1 className="seasons">{seasons}</h1>
+          <p>{defaultMovies.release_date}</p>
+          <p>{defaultMovies.overview}</p>
+        </div>
+      </StyledWrapper>
+    );
+  }
 };
 
 export default SeriesDetail;

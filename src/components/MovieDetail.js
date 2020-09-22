@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_KEY, IMG_PATH } from "../App";
 import styled from "styled-components";
+import Loader from "./Loader";
 
 const StyledWrapper = styled.div`
   margin-top: 10rem;
@@ -9,24 +10,24 @@ const StyledWrapper = styled.div`
   height: 100%;
   position: relative;
   display: flex;
-  @media screen and (max-width:768px){
-    flex-direction:column;
-    img{
-      object-fit:contain;
-      width:100%;
-      height:auto;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    img {
+      object-fit: contain;
+      width: 100%;
+      height: auto;
     }
-    .info{
-      padding-top:5rem;
-      width:100%;
-      padding-bottom:5rem;
-      h1{
+    .info {
+      padding-top: 5rem;
+      width: 100%;
+      padding-bottom: 5rem;
+      h1 {
         /* text-align:center; */
       }
     }
   }
   div {
-    width:50%;
+    width: 50%;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -54,7 +55,7 @@ const StyledWrapper = styled.div`
       margin-top: 1rem;
       font-weight: normal;
       display: flex;
-      flex-wrap:wrap;
+      flex-wrap: wrap;
       justify-content: center;
       align-items: center;
       p {
@@ -64,6 +65,11 @@ const StyledWrapper = styled.div`
         border-radius: 10px;
       }
     }
+    .release-date {
+      i {
+        padding-right: 1rem;
+      }
+    }
   }
 `;
 
@@ -71,6 +77,7 @@ const MovieDetail = () => {
   let { id } = useParams();
 
   const [defaultMovies, setDefaultMovies] = useState([]);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     fetch(
@@ -79,6 +86,7 @@ const MovieDetail = () => {
       .then((data) => data.json())
       .then((res) => {
         setDefaultMovies(res);
+        setLoader(false);
       })
       .catch((err) => err);
   }, []);
@@ -93,28 +101,33 @@ const MovieDetail = () => {
     return <p key={id}>{genre}</p>;
   });
 
- 
+  if (loader) {
+    return <Loader />;
+  } else {
+    return (
+      <StyledWrapper>
+        <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
+        <div className="info">
+          <h1>
+            {defaultMovies.title}(
+            {new Date(defaultMovies.release_date).getFullYear()})
+          </h1>
+          <h1 className="genres">{genres}</h1>
+          <p className="rating">
+            <i className="material-icons">star</i>
+            {defaultMovies.vote_average}
+          </p>
+          <p className="release-date">
+            <i className="fas fa-video"></i>
+            {defaultMovies.release_date}
+          </p>
+          <p>{defaultMovies.runtime} min</p>
 
-  return (
-    <StyledWrapper>
-      <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
-      <div className="info">
-        <h1>
-          {defaultMovies.title}(
-          {new Date(defaultMovies.release_date).getFullYear()})
-        </h1>
-        <h1 className="genres">{genres}</h1>
-        <p className="rating">
-          <i className="material-icons">star</i>
-          {defaultMovies.vote_average}
-        </p>
-        <p>{defaultMovies.release_date}</p>
-        <p>{defaultMovies.runtime} min</p>
-
-        <p>{defaultMovies.overview}</p>
-      </div>
-    </StyledWrapper>
-  );
+          <p>{defaultMovies.overview}</p>
+        </div>
+      </StyledWrapper>
+    );
+  }
 };
 
 export default MovieDetail;

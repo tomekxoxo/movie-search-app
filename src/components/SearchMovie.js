@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_KEY, IMG_PATH } from "../App";
 import styled from "styled-components";
-import genres from './common/genres';
+import genres from "./common/genres";
+import Loader from "./Loader";
 
 const StyledWrapper = styled.div`
   margin-top: 10rem;
@@ -85,6 +86,7 @@ const SearchMovie = (props) => {
 
   const [defaultMovies, setDefaultMovies] = useState([]);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(
@@ -95,23 +97,23 @@ const SearchMovie = (props) => {
         const firsRecord = [res.results[0]];
         setDefaultMovies(firsRecord);
         setError(false);
+        setLoading(false);
       })
       .catch((err) => setError(`data couldn't be loaded...`));
   }, [id]);
-
 
   let parsedData;
 
   parsedData = defaultMovies.map((defaultMovies) => {
     const genreArr = defaultMovies.genre_ids;
-    let genreFound = []
-    genreFound = genreArr.map(genreId => {
-      return genres.map(element => {
+    let genreFound = [];
+    genreFound = genreArr.map((genreId) => {
+      return genres.map((element) => {
         if (genreId == element.id) {
-          return <p key={element.id}>{element.name}</p>
+          return <p key={element.id}>{element.name}</p>;
         }
-      })
-    })
+      });
+    });
     return (
       <React.Fragment key={defaultMovies.id}>
         <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
@@ -135,7 +137,11 @@ const SearchMovie = (props) => {
     );
   });
 
-  return <StyledWrapper>{parsedData}</StyledWrapper>;
+  if (loading) {
+    return <Loader />;
+  } else {
+    return <StyledWrapper>{parsedData}</StyledWrapper>;
+  }
 };
 
 export default SearchMovie;

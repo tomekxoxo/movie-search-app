@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_KEY, IMG_PATH } from "../App";
 import Loader from "./Loader";
-import StyledWrapper from './common/StyledWrapper';
-
-
+import StyledWrapper from "./common/StyledWrapper";
+import CastSwiper from "./CastSwiper";
 
 const MovieDetail = () => {
   let { id } = useParams();
@@ -38,27 +37,30 @@ const MovieDetail = () => {
     return <Loader />;
   } else {
     return (
-      <StyledWrapper>
-        <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
-        <div className="info">
-          <h1>
-            {defaultMovies.title}(
-            {new Date(defaultMovies.release_date).getFullYear()})
-          </h1>
-          <h1 className="genres">{genres}</h1>
-          <p className="rating">
-            <i className="material-icons">star</i>
-            {defaultMovies.vote_average}
-          </p>
-          <p className="release-date">
-            <i className="fas fa-video"></i>
-            {defaultMovies.release_date}
-          </p>
-          <p>{defaultMovies.runtime} min</p>
+      <React.Fragment>
+        <StyledWrapper>
+          <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
+          <div className="info">
+            <h1>
+              {defaultMovies.title}(
+              {new Date(defaultMovies.release_date).getFullYear()})
+            </h1>
+            <h1 className="genres">{genres}</h1>
+            <p className="rating">
+              <i className="material-icons">star</i>
+              {defaultMovies.vote_average}
+            </p>
+            <p className="release-date">
+              <i className="fas fa-video"></i>
+              {defaultMovies.release_date}
+            </p>
+            <p>{defaultMovies.runtime} min</p>
 
-          <p>{defaultMovies.overview}</p>
-        </div>
-      </StyledWrapper>
+            <p>{defaultMovies.overview}</p>
+          </div>
+        </StyledWrapper>
+        <CastSwiper id={id} type="movie"/>
+      </React.Fragment>
     );
   }
 };

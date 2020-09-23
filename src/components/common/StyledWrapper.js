@@ -8,7 +8,7 @@ const StyledWrapper = styled.div`
   display: flex;
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    img {
+    img{
       object-fit: contain;
       width: 100%;
       height: auto;

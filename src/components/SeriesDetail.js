@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_KEY, IMG_PATH } from "../App";
 import Loader from "./Loader";
-import StyledWrapper from './common/StyledWrapper';
-
-
+import StyledWrapper from "./common/StyledWrapper";
+import CastSwiper from "./CastSwiper";
 
 const SeriesDetail = () => {
   let { id } = useParams();
@@ -60,22 +59,25 @@ const SeriesDetail = () => {
     return <Loader />;
   } else {
     return (
-      <StyledWrapper>
-        <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
-        <div className="info">
-          <h1>
-            {defaultMovies.name}({dateStart}-{!isNaN(dateEnd) && dateEnd})
-          </h1>
-          <h1 className="genres">{genres}</h1>
-          <p className="rating">
-            <i className="material-icons">star</i>
-            {defaultMovies.vote_average}
-          </p>
-          <h1 className="seasons">{seasons}</h1>
-          <p>{defaultMovies.release_date}</p>
-          <p>{defaultMovies.overview}</p>
-        </div>
-      </StyledWrapper>
+      <React.Fragment>
+        <StyledWrapper>
+          <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
+          <div className="info">
+            <h1>
+              {defaultMovies.name}({dateStart}-{!isNaN(dateEnd) && dateEnd})
+            </h1>
+            <h1 className="genres">{genres}</h1>
+            <p className="rating">
+              <i className="material-icons">star</i>
+              {defaultMovies.vote_average}
+            </p>
+            <h1 className="seasons">{seasons}</h1>
+            <p>{defaultMovies.release_date}</p>
+            <p>{defaultMovies.overview}</p>
+          </div>
+        </StyledWrapper>
+        <CastSwiper id={id} type="tv"/>
+      </React.Fragment>
     );
   }
 };

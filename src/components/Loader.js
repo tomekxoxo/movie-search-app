@@ -7,9 +7,9 @@ const StyledLoader = styled.div`
   width: 1em;
   height: 1em;
   border-radius: 50%;
-  position: absolute;
+  /* position: absolute;
   top:20%;
-  left:50%;
+  left:50%; */
   text-indent: -9999em;
   -webkit-animation: load5 1.1s infinite ease;
   animation: load5 1.1s infinite ease;

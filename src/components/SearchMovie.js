@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { API_KEY, IMG_PATH } from "../App";
 import genres from "./common/genres";
 import Loader from "./Loader";
-import StyledWrapper from './common/StyledWrapper';
+import StyledWrapper from "./common/StyledWrapper";
+import CastSwiper from "./CastSwiper";
 
 const SearchMovie = (props) => {
   let { id } = useParams();
@@ -11,6 +12,7 @@ const SearchMovie = (props) => {
   const [defaultMovies, setDefaultMovies] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [movieID, setMovieId] = useState(null);
 
   useEffect(() => {
     fetch(
@@ -19,6 +21,8 @@ const SearchMovie = (props) => {
       .then((data) => data.json())
       .then((res) => {
         const firsRecord = [res.results[0]];
+        const movieId = [res.results[0].id];
+        setMovieId(movieId)
         setDefaultMovies(firsRecord);
         setError(false);
         setLoading(false);
@@ -64,7 +68,12 @@ const SearchMovie = (props) => {
   if (loading) {
     return <Loader />;
   } else {
-    return <StyledWrapper>{parsedData}</StyledWrapper>;
+    return (
+      <React.Fragment>
+        <StyledWrapper>{parsedData}</StyledWrapper>
+        <CastSwiper id={movieID} type="movie" />
+      </React.Fragment>
+    );
   }
 };
 

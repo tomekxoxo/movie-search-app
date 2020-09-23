@@ -31,12 +31,6 @@ function App() {
   useEffect(() => {
     setSideDrawer()
   },[location])
-  
-
-  // id gatunkow filmow = https://api.themoviedb.org/3/genre/movie/list?api_key=5164c32e4ce67e20eb6052f1f8215c14&language=pl
-
-  //id gatunkow seriali https://api.themoviedb.org/3/genre/tv/list?api_key=5164c32e4ce67e20eb6052f1f8215c14&language=pl
-
 
   const submitTitleHandler = (title) => {
     setSearchTitle(title);

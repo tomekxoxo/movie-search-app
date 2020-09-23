@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_KEY, IMG_PATH } from "../App";
-import genres from './common/genres';
+import genres from "./common/genres";
 import Loader from "./Loader";
-import StyledWrapper from './common/StyledWrapper';
+import StyledWrapper from "./common/StyledWrapper";
+import CastSwiper from "./CastSwiper";
 
 const SearchTv = (props) => {
   let { id } = useParams();
@@ -11,6 +12,7 @@ const SearchTv = (props) => {
   const [defaultMovies, setDefaultMovies] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [seriesID, setSeriesID] = useState(null);
 
   useEffect(() => {
     fetch(
@@ -19,35 +21,39 @@ const SearchTv = (props) => {
       .then((data) => data.json())
       .then((res) => {
         const firsRecord = [res.results[0]];
+        const seriesId = [res.results[0].id];
+        setSeriesID(seriesId)
         setDefaultMovies(firsRecord);
         setError(false);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((err) => setError(`data couldn't be loaded...`));
   }, [id]);
 
-
   let parsedData;
 
   parsedData = defaultMovies.map((defaultMovies) => {
+    
     const dateStart = new Date(defaultMovies.first_air_date).getFullYear();
     const dateEnd = new Date(defaultMovies.last_air_date).getFullYear();
     const genreArr = defaultMovies.genre_ids;
-    let genreFound = []
-    genreFound = genreArr.map(genreId => {
-      return genres.map(element => {
+    let genreFound = [];
+    
+    genreFound = genreArr.map((genreId) => {
+      return genres.map((element) => {
         if (genreId == element.id) {
-          return <p key={element.id}>{element.name}</p>
+          return <p key={element.id}>{element.name}</p>;
         }
-      })
-    })
+      });
+    });
 
     return (
       <React.Fragment key={defaultMovies.id}>
         <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
         <div className="info">
           <h1>
-            {defaultMovies.original_name}({dateStart}-{!isNaN(dateEnd)&&dateEnd})
+            {defaultMovies.original_name}({dateStart}-
+            {!isNaN(dateEnd) && dateEnd})
           </h1>
           <h1 className="genres">{genreFound}</h1>
           <p className="rating">
@@ -63,7 +69,12 @@ const SearchTv = (props) => {
   if (loading) {
     return <Loader />;
   } else {
-    return <StyledWrapper>{parsedData}</StyledWrapper>;
+    return (
+      <React.Fragment>
+        <StyledWrapper>{parsedData}</StyledWrapper>
+        <CastSwiper id={seriesID} type="tv" />
+      </React.Fragment>
+    );
   }
 };
 

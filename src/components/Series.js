@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MovieCard from "./MovieCard";
 import { API_KEY, IMG_PATH } from "../App";
-import debounce from "lodash.debounce";
+import InfiniteScroll from "react-infinite-scroll-component";
 import Filter from "./Filter";
 import Loader from "./Loader";
 import StyledGridContainer from "./common/StyledGridContainer";
@@ -24,14 +24,6 @@ const Series = (props) => {
         setLoading(false);
       })
       .catch((err) => err);
-    window.onscroll = debounce(() => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        0.9 * document.documentElement.offsetHeight
-      ) {
-        page < lastPage && setPage(page + 1);
-      }
-    }, 100);
   }, [page]);
 
   useEffect(() => {
@@ -69,7 +61,14 @@ const Series = (props) => {
     <React.Fragment>
       <Filter change={onChangeFilter} />
       {loading && <Loader />}
-      <StyledGridContainer>{cards}</StyledGridContainer>
+      <InfiniteScroll
+        dataLength={defaultMovies.length}
+        next={() => setPage((prevPage) => prevPage + 1)}
+        hasMore={page < lastPage}
+        loader={<h4>Loading...</h4>}
+      >
+        <StyledGridContainer> {cards}</StyledGridContainer>
+      </InfiniteScroll>
     </React.Fragment>
   );
 };

@@ -27,7 +27,7 @@ const Series = (props) => {
     window.onscroll = debounce(() => {
       if (
         window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
+        0.9 * document.documentElement.offsetHeight
       ) {
         page < lastPage && setPage(page + 1);
       }

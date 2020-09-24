@@ -17,6 +17,7 @@ const People = (props) => {
       .then((data) => data.json())
       .then((res) => {
         setLoader(false);
+        console.log(res);
         setData(res);
       })
       .catch((err) => err);
@@ -52,7 +53,9 @@ const People = (props) => {
             </p>
             <p className="rating">
               wiek: {getAge(data.birthday)}
-              {data.deathday}
+            </p>
+            <p className="rating">
+              {data.deathday && 'śmierć:'} {data.deathday}    
             </p>
             <p>{data.biography}</p>
           </div>

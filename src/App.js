@@ -5,6 +5,7 @@ import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import Films from "./components/Movies/Films";
 import Series from "./components/Series/Series";
 import Auth from "./components/Auth";
+import People from './components/People/People';
 import MovieDetail from "./components/Movies/MovieDetail";
 import SeriesDetail from "./components/Series/SeriesDetail";
 import SearchMovie from "./components/Movies/SearchMovie";
@@ -58,6 +59,7 @@ function App() {
           <Route path={process.env.PUBLIC_URL + "/series/:id"} exact component={SeriesDetail} />
           <Route path={process.env.PUBLIC_URL + "/series/search/tv/:id"} exact component={SearchTv} />
           <Route path={process.env.PUBLIC_URL + "/movies/search/movies/:id"} exact component={SearchMovie} />
+          <Route path={process.env.PUBLIC_URL + "/people/:id"} exact component={People} />
         </Container>
       </Switch>
     </div>

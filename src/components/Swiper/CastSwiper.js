@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {
   Navigation,
@@ -31,15 +32,22 @@ const SwiperContainer = styled.div`
   }
 `;
 
+const ActorLink = styled(Link)``;
+
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Lazy]);
 
 const CastSwiper = (props) => {
   const [cast, setCast] = useState([]);
 
+  
+
+  let url = `https://api.themoviedb.org/3/${props.type}/${props.id}/credits?api_key=${API_KEY}&language=pl`;
+  if (props.type === 'person') {
+    url = `https://api.themoviedb.org/3/person/${props.id}/combined_credits?api_key=${API_KEY}&language=pl`;
+  }
+
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/${props.type}/${props.id}/credits?api_key=${API_KEY}&language=pl`
-    )
+    fetch(url)
       .then((data) => data.json())
       .then((res) => {
         setCast(res.cast);
@@ -48,19 +56,48 @@ const CastSwiper = (props) => {
   }, [props.id, props.type]);
 
   let castArr = cast.map((castMember) => {
-    return (
-      <SwiperSlide key={castMember.id}>
-        {castMember.profile_path ? (
-          <img src={IMG_PATH + castMember.profile_path} alt="actor-img" />
-        ) : (
-          <img src={ImageNotFound} alt="img-not-found" />
-        )}
-        <div>
-          <p className="name">{castMember.name}</p>
-          <p className="character">{castMember.character}</p>
-        </div>
-      </SwiperSlide>
-    );
+    if (props.type !== 'person') {
+      return (
+        <SwiperSlide key={castMember.id}>
+          <ActorLink to={process.env.PUBLIC_URL + '/people/' + castMember.id}>
+            {castMember.profile_path ? (
+              <img src={IMG_PATH + castMember.profile_path} alt="actor-img" />
+            ) : (
+              <img src={ImageNotFound} alt="img-not-found" />
+            )}
+            <div>
+              <p className="name">{castMember.name}</p>
+              <p className="character">{castMember.character}</p>
+            </div>
+          </ActorLink>
+        </SwiperSlide>
+      );
+    }
+    else {
+      let mediaType = castMember.media_type;
+      if (mediaType === 'tv') {
+        mediaType = 'series'
+      }
+      else {
+        mediaType = 'movies'
+        
+      }
+      return (
+        <SwiperSlide key={castMember.credit_id}>
+          <ActorLink to={process.env.PUBLIC_URL + `/${mediaType}/` + castMember.id}>
+            {castMember.poster_path ? (
+              <img src={IMG_PATH + castMember.poster_path} alt="actor-img" />
+            ) : (
+              <img src={ImageNotFound} alt="img-not-found" />
+            )}
+            <div>
+              <p className="name">{castMember.title?castMember.title:castMember.name} ({castMember.release_date&&new Date(castMember.release_date).getUTCFullYear()})</p>
+              <p className="character">{castMember.character}</p>
+            </div>
+          </ActorLink>
+        </SwiperSlide>
+      );
+    }
   });
 
   return (

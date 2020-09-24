@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../assets/images/tmdb.svg";
+import logo from "../../assets/images/tmdb.svg";
 import { NavLink, Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import SIdeDrawerButton from "./SideDrawerButton";
-import LoginImg from "../assets/images/login.png";
+import LoginImg from "../../assets/images/login.png";
 
 const StyledHeader = styled.header`
   display: flex;

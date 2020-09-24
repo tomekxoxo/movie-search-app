@@ -1,8 +1,8 @@
 import React, { useState} from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
-import ImageNotFound from "../assets/images/image-not-found.png";
-import { IMG_PATH } from "../App";
+import ImageNotFound from "../../assets/images/image-not-found.png";
+import { IMG_PATH } from "../../App";
 
 const StyledCard = styled(Link)`
   width: 100%;

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import MovieCard from "./MovieCard";
-import { API_KEY, IMG_PATH } from "../App";
+import MovieCard from "../Movies/MovieCard";
+import { API_KEY, IMG_PATH } from "../../App";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Filter from "./Filter";
-import Loader from "./Loader";
-import StyledGridContainer from "./common/StyledGridContainer";
+import Filter from "../Filter/Filter";
+import Loader from "../UI/Loader";
+import StyledGridContainer from "../common/StyledGridContainer";
 
 const Films = (props) => {
   const [defaultMovies, setDefaultMovies] = useState([]);

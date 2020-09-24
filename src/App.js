@@ -1,15 +1,15 @@
 import React, { useState, useEffect} from "react";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/Navigation/NavBar";
 import styled from "styled-components";
 import { Route, Switch, Redirect, useLocation } from "react-router-dom";
-import Films from "./components/Films";
-import Series from "./components/Series";
+import Films from "./components/Movies/Films";
+import Series from "./components/Series/Series";
 import Auth from "./components/Auth";
-import MovieDetail from "./components/MovieDetail";
-import SeriesDetail from "./components/SeriesDetail";
-import SearchMovie from "./components/SearchMovie";
-import SearchTv from "./components/SearchTv";
-import SideDrawer from './components/SideDrawer';
+import MovieDetail from "./components/Movies/MovieDetail";
+import SeriesDetail from "./components/Series/SeriesDetail";
+import SearchMovie from "./components/Movies/SearchMovie";
+import SearchTv from "./components/Series/SearchTv";
+import SideDrawer from './components/Navigation/SideDrawer';
 
 export const Container = styled.div`
   width: 100%;

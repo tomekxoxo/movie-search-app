@@ -9,8 +9,8 @@ import SwiperCore, {
 } from "swiper";
 import "./CastSwiper.css";
 import styled from "styled-components";
-import { API_KEY, IMG_PATH } from "../App";
-import ImageNotFound from "../assets/images/image-not-found.png";
+import { API_KEY, IMG_PATH } from "../../App";
+import ImageNotFound from "../../assets/images/image-not-found.png";
 
 const SwiperContainer = styled.div`
   margin: 2rem 0;
@@ -45,7 +45,7 @@ const CastSwiper = (props) => {
         setCast(res.cast);
       })
       .catch((err) => err);
-  }, []);
+  }, [props.id, props.type]);
 
   let castArr = cast.map((castMember) => {
     return (

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import ImageNotFound from "../../assets/images/image-not-found.png";
 import { IMG_PATH } from "../../App";
+import Loader from "../UI/Loader";
 
 const StyledCard = styled(Link)`
   width: 100%;

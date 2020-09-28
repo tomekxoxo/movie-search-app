@@ -17,7 +17,6 @@ const People = (props) => {
       .then((data) => data.json())
       .then((res) => {
         setLoader(false);
-        console.log(res);
         setData(res);
       })
       .catch((err) => err);
@@ -43,7 +42,7 @@ const People = (props) => {
           <img src={`${IMG_PATH}${data.profile_path}`}></img>
           <div className="info">
             <h1>{data.name}</h1>
-            <p className="rating" style={{ color: "black", fontSize:'2.4rem' }}>
+            <p className="rating" style={{ color: "black", fontSize:'2.4rem'}}>
               data urodzenia:
               {' '+data.birthday}
             </p>

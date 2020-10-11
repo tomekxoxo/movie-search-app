@@ -1,0 +1,217 @@
+import * as actionTypes from "./actionTypes";
+import { API_KEY, IMG_PATH } from "../../App";
+
+export const auth = (email, password, isSignupMode) => {
+  return (dispatch) => {
+    const data = {
+      email: email,
+      password: password,
+      returnSecureToken: true,
+    };
+
+    let url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAJi2I_H_558BuqNZizn8Bf_B9R5yLci-A`;
+
+    if (!isSignupMode) {
+      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAJi2I_H_558BuqNZizn8Bf_B9R5yLci-A`;
+    }
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) =>
+        dispatch({
+          type: actionTypes.AUTH_SUCCESS,
+          idToken: data.idToken,
+          userId: data.localId,
+        })
+      );
+  };
+};
+
+export const rateMovie = (movieId, isMovie, score, userId, token) => {
+  return (dispatch) => {
+    const data = {
+      userId: userId,
+      movieId: movieId,
+      score: score,
+    };
+
+    let url = `https://movie-search-3d6f7.firebaseio.com/movies.json?auth=${token}`;
+
+    if (!isMovie) {
+      url = `https://movie-search-3d6f7.firebaseio.com/series.json?auth=${token}`;
+    }
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) =>
+        dispatch({
+          type: actionTypes.RATE_SUCCESS,
+          rateData: data,
+        })
+      );
+  };
+};
+
+export const authLogout = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT,
+  };
+};
+
+export const addToWatchList = (movieId, isMovie, userId, token) => {
+  return (dispatch) => {
+    const data = {
+      userId: userId,
+      movieId: movieId,
+    };
+
+    let url = `https://movie-search-3d6f7.firebaseio.com/movies/watchlist.json?auth=${token}`;
+
+    if (!isMovie) {
+      url = `https://movie-search-3d6f7.firebaseio.com/series/watchlist.json?auth=${token}`;
+    }
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) =>
+        dispatch({
+          type: actionTypes.WATCHLIST_SUCCESS,
+          rateData: data,
+        })
+      );
+  };
+};
+
+export const showMovieWatchList = (userId) => {
+  return (dispatch) => {
+    let url = `https://movie-search-3d6f7.firebaseio.com/movies/watchlist.json?orderBy="userId"&equalTo="${userId}"`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        let fetchedData = [];
+        for (let key in data) {
+          fetchedData.push({
+            isMovie: true,
+            movieId: Number(data[key]["movieId"]),
+          });
+        }
+        dispatch({
+          type: actionTypes.FETCH_MOVIE_WATCH_LIST,
+          userWatchList: fetchedData,
+        });
+      });
+  };
+};
+
+export const showSeriesWatchList = (userId) => {
+  return (dispatch) => {
+    let url = `https://movie-search-3d6f7.firebaseio.com/series/watchlist.json?orderBy="userId"&equalTo="${userId}"`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        let fetchedData = [];
+        for (let key in data) {
+          fetchedData.push({
+            isMovie: false,
+            movieId: Number(data[key]["movieId"]),
+          });
+        }
+        dispatch({
+          type: actionTypes.FETCH_SERIES_WATCH_LIST,
+          userWatchList: fetchedData,
+        });
+      });
+  };
+};
+
+export const showRatedMovies = (userId) => {
+  return (dispatch) => {
+    let url = `https://movie-search-3d6f7.firebaseio.com/movies.json?orderBy="userId"&equalTo="${userId}"`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        let fetchedData = [];
+        for (let key in data) {
+          fetchedData.push({
+            isMovie: true,
+            movieId: Number(data[key]["movieId"]),
+            score: Number(data[key]["score"]),
+          });
+        }
+        dispatch({
+          type: actionTypes.FETCH_MOVIE_RATED_LIST,
+          userRatedList: fetchedData,
+        });
+      });
+  };
+};
+
+export const showRatedSeries = (userId) => {
+  return (dispatch) => {
+    let url = `https://movie-search-3d6f7.firebaseio.com/series.json?orderBy="userId"&equalTo="${userId}"`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        let fetchedData = [];
+        for (let key in data) {
+          fetchedData.push({
+            isMovie: false,
+            movieId: Number(data[key]["movieId"]),
+            score: Number(data[key]["score"]),
+          });
+        }
+        dispatch({
+          type: actionTypes.FETCH_SERIES_RATED_LIST,
+          userRatedList: fetchedData,
+        });
+      });
+  };
+};
+
+export const loadWatchList = (userWatchList) => {
+  return (dispatch) => {
+    let url;
+
+    userWatchList.forEach((element) => {
+      if (element.isMovie) {
+        url = `https://api.themoviedb.org/3/movie/${element.movieId}?api_key=${API_KEY}&language=pl`;
+      } else {
+        url = `https://api.themoviedb.org/3/tv/${element.movieId}?api_key=${API_KEY}&language=pl`;
+      }
+      fetch(url)
+        .then((data) => data.json())
+        .then((res) => {
+          if (res.first_air_date) {
+            dispatch({
+              type: actionTypes.FETCH_WATCH_LIST_SERIES,
+              loadWatchListSeries: res
+            });
+          } else {
+            dispatch({
+              type: actionTypes.FETCH_WATCH_LIST_MOVIES,
+              loadWatchListMovies: res,
+            });
+          }
+        })
+        .catch((err) => err);
+    });
+  };
+};

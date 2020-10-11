@@ -32,10 +32,13 @@ const SwiperContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    i{
+      color:#cfb53b;
+    }
   }
 `;
 
-const ActorLink = styled(Link)``;
+const CustomLink = styled(Link)``;
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Lazy]);
 
@@ -83,7 +86,7 @@ const CastSwiper = (props) => {
     ) {
       return (
         <SwiperSlide key={castMember.id}>
-          <ActorLink to={process.env.PUBLIC_URL + "/movies/" + castMember.id}>
+          <CustomLink to={process.env.PUBLIC_URL + "/movies/" + castMember.id}>
             {castMember.poster_path ? (
               <img src={IMG_PATH + castMember.poster_path} alt="movie-img" />
             ) : (
@@ -96,13 +99,13 @@ const CastSwiper = (props) => {
                 {castMember.vote_average}
               </p>
             </div>
-          </ActorLink>
+          </CustomLink>
         </SwiperSlide>
       );
     } else if (props.type !== "person") {
       return (
         <SwiperSlide key={castMember.id}>
-          <ActorLink to={process.env.PUBLIC_URL + "/people/" + castMember.id}>
+          <CustomLink to={process.env.PUBLIC_URL + "/people/" + castMember.id}>
             {castMember.profile_path ? (
               <img src={IMG_PATH + castMember.profile_path} alt="actor-img" />
             ) : (
@@ -112,7 +115,7 @@ const CastSwiper = (props) => {
               <p className="name">{castMember.name}</p>
               <p className="character">{castMember.character}</p>
             </div>
-          </ActorLink>
+          </CustomLink>
         </SwiperSlide>
       );
     } else {
@@ -124,7 +127,7 @@ const CastSwiper = (props) => {
       }
       return (
         <SwiperSlide key={castMember.credit_id}>
-          <ActorLink
+          <CustomLink
             to={process.env.PUBLIC_URL + `/${mediaType}/` + castMember.id}
           >
             {castMember.poster_path ? (
@@ -141,7 +144,7 @@ const CastSwiper = (props) => {
               </p>
               <p className="character">{castMember.character}</p>
             </div>
-          </ActorLink>
+          </CustomLink>
         </SwiperSlide>
       );
     }

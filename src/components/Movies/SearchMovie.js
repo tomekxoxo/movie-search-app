@@ -5,6 +5,7 @@ import genres from "../common/genres";
 import Loader from "../UI/Loader";
 import StyledWrapper from "../common/StyledWrapper";
 import CastSwiper from "../Swiper/CastSwiper";
+import HoverRating from '../Rating/Rating';
 
 const SearchMovie = (props) => {
   let { id } = useParams();
@@ -51,6 +52,7 @@ const SearchMovie = (props) => {
             {new Date(defaultMovies.release_date).getFullYear()})
           </h1>
           <h1 className="genres">{genreFound}</h1>
+          <HoverRating movieId={id} isMovie={true}/>
           <p className="rating">
             <i className="material-icons">star</i>
             {defaultMovies.vote_average}

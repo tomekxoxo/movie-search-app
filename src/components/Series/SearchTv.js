@@ -5,6 +5,7 @@ import genres from "../common/genres";
 import Loader from "../UI/Loader";
 import StyledWrapper from "../common/StyledWrapper";
 import CastSwiper from "../Swiper/CastSwiper";
+import HoverRating from '../Rating/Rating';
 
 const SearchTv = (props) => {
   let { id } = useParams();
@@ -56,6 +57,7 @@ const SearchTv = (props) => {
             {!isNaN(dateEnd) && dateEnd})
           </h1>
           <h1 className="genres">{genreFound}</h1>
+          <HoverRating movieId={id} isMovie={false}/>
           <p className="rating">
             <i className="material-icons">star</i>
             {defaultMovies.vote_average}

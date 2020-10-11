@@ -4,6 +4,7 @@ import { API_KEY, IMG_PATH } from "../../App";
 import Loader from "../UI/Loader";
 import StyledWrapper from "../common/StyledWrapper";
 import CastSwiper from "../Swiper/CastSwiper";
+import HoverRating from '../Rating/Rating';
 
 const MovieDetail = () => {
   let { id } = useParams();
@@ -46,6 +47,7 @@ const MovieDetail = () => {
               {new Date(defaultMovies.release_date).getFullYear()})
             </h1>
             <h1 className="genres">{genres}</h1>
+            <HoverRating movieId={id} isMovie={true}/>
             <p className="rating">
               <i className="material-icons">star</i>
               {defaultMovies.vote_average}
@@ -59,7 +61,7 @@ const MovieDetail = () => {
             <p>{defaultMovies.overview}</p>
           </div>
         </StyledWrapper>
-        <CastSwiper id={id} type="movie"/>
+        <CastSwiper id={id} type="movie" />
       </React.Fragment>
     );
   }

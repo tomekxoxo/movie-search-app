@@ -6,9 +6,14 @@ const StyledWrapper = styled.div`
   height: 100%;
   position: relative;
   display: flex;
+  img {
+    object-fit: contain;
+    align-self: flex-start;
+    height: auto;
+  }
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    img{
+    img {
       object-fit: contain;
       width: 100%;
       height: auto;
@@ -42,9 +47,9 @@ const StyledWrapper = styled.div`
         left: 1rem;
       }
     }
-    .release-date{
-      i{
-        margin-right:1rem;
+    .release-date {
+      i {
+        margin-right: 1rem;
       }
     }
     p {
@@ -68,6 +73,8 @@ const StyledWrapper = styled.div`
       }
     }
     .seasons {
+      max-height:280px;
+      overflow-y:scroll;
       margin-top: 1rem;
       font-weight: normal;
       display: flex;

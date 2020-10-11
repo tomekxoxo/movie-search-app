@@ -4,6 +4,7 @@ import { API_KEY, IMG_PATH } from "../../App";
 import Loader from "../UI/Loader";
 import StyledWrapper from "../common/StyledWrapper";
 import CastSwiper from "../Swiper/CastSwiper";
+import HoverRating from '../Rating/Rating';
 
 const SeriesDetail = () => {
   let { id } = useParams();
@@ -67,6 +68,7 @@ const SeriesDetail = () => {
               {defaultMovies.name}({dateStart}-{!isNaN(dateEnd) && dateEnd})
             </h1>
             <h1 className="genres">{genres}</h1>
+            <HoverRating movieId={id} isMovie={false}/>
             <p className="rating">
               <i className="material-icons">star</i>
               {defaultMovies.vote_average}

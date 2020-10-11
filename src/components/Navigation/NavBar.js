@@ -5,6 +5,9 @@ import { NavLink, Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import SIdeDrawerButton from "./SideDrawerButton";
 import LoginImg from "../../assets/images/login.png";
+import { connect } from "react-redux";
+import Account from "./AccountButton";
+import * as actions from "../../store/actions/index";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -17,6 +20,12 @@ const StyledHeader = styled.header`
     img {
       width: 3rem;
       margin-right: 0.5rem;
+    }
+    i:first-of-type {
+      margin-right: 0.5rem;
+    }
+    i:last-of-type {
+      margin-left: 0.5rem;
     }
   }
   @media screen and (max-width: 767px) {
@@ -76,7 +85,7 @@ const LogoWrapper = styled(Link)`
   }
 `;
 
-const NavBar = ({ submitted, toggleSideDrawer }) => {
+const NavBar = (props) => {
   return (
     <FixedHeader>
       <Container>
@@ -93,16 +102,37 @@ const NavBar = ({ submitted, toggleSideDrawer }) => {
               <NavLink to={process.env.PUBLIC_URL + "/series"}>Seriale</NavLink>
             </li>
           </StyledList>
-          <SIdeDrawerButton type="fas fa-bars" clicked={toggleSideDrawer} />
-          <SearchBar submitted={submitted} />
-          <NavLink to={process.env.PUBLIC_URL + "/auth"} className="login">
-            <img src={LoginImg} alt="login img" />
-            <p>Zaloguj się</p>
-          </NavLink>
+          <SIdeDrawerButton
+            type="fas fa-bars"
+            clicked={props.toggleSideDrawer}
+          />
+          <SearchBar submitted={props.submitted} />
+          {!props.isAuthenticated ? (
+            <NavLink to={process.env.PUBLIC_URL + "/auth"} className="login">
+              <img src={LoginImg} alt="login img" />
+              <p>Zaloguj się</p>
+            </NavLink>
+          ) : (
+            <Account/>
+          )}
         </StyledHeader>
       </Container>
     </FixedHeader>
   );
 };
 
-export default NavBar;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.authenticated,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogout: () => {
+      dispatch(actions.authLogout());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

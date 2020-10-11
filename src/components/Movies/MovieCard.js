@@ -3,11 +3,10 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import ImageNotFound from "../../assets/images/image-not-found.png";
 import { IMG_PATH } from "../../App";
-import Loader from "../UI/Loader";
 
 const StyledCard = styled(Link)`
   width: 100%;
-  height: auto;
+  height: 45rem;
   position: relative;
   text-align: center;
   display: flex;
@@ -46,6 +45,11 @@ const StyledCard = styled(Link)`
     width: 100%;
     top: 0rem;
     left: 0rem;
+  }
+  @media screen and (max-width:680px){
+    img{
+      height:100%;
+    }
   }
 `;
 

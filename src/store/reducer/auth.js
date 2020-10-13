@@ -67,7 +67,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_WATCH_LIST_SERIES:
       return {
         ...state,
-        loadWatchListSeries : [action.loadWatchListSeries]
+        loadWatchListSeries : [action.loadWatchListSeries]// chcę na tym zrobić concat lecz nie działa 
       }
     default:
       return state;

@@ -11,12 +11,15 @@ const initialState = {
   redirectPath: "/",
   loadWatchListMovies: [],
   loadWatchListSeries: [],
+  loadRatedMovies: [],
+  loadRatedSeries: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_SUCCESS:
       return {
+        ...state,
         authenticated: true,
         userId: action.userId,
         idToken: action.idToken,
@@ -62,13 +65,35 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_WATCH_LIST_MOVIES:
       return {
         ...state,
-        loadWatchListMovies: [action.loadWatchListMovies],
+        loadWatchListMovies: [
+          ...state.loadWatchListMovies,
+          action.loadWatchListMovies,
+        ],
       };
     case actionTypes.FETCH_WATCH_LIST_SERIES:
       return {
         ...state,
-        loadWatchListSeries : [action.loadWatchListSeries]// chcę na tym zrobić concat lecz nie działa 
-      }
+        loadWatchListSeries: [
+          ...state.loadWatchListSeries,
+          action.loadWatchListSeries,
+        ],
+      };
+      case actionTypes.FETCH_RATED_MOVIES:
+        return {
+          ...state,
+          loadRatedMovies: [
+            ...state.loadRatedMovies,
+            action.loadRatedMovies,
+          ],
+        };
+      case actionTypes.FETCH_RATED_SERIES:
+        return {
+          ...state,
+          loadRatedSeries: [
+            ...state.loadRatedSeries,
+            action.loadRatedSeries,
+          ],
+        };
     default:
       return state;
   }

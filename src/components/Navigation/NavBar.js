@@ -6,7 +6,7 @@ import SearchBar from "./SearchBar";
 import SIdeDrawerButton from "./SideDrawerButton";
 import LoginImg from "../../assets/images/login.png";
 import { connect } from "react-redux";
-import Account from "./AccountButton";
+import AccountButton from "./AccountButton";
 import * as actions from "../../store/actions/index";
 
 const StyledHeader = styled.header`
@@ -113,7 +113,7 @@ const NavBar = (props) => {
               <p>Zaloguj się</p>
             </NavLink>
           ) : (
-            <Account/>
+            <AccountButton/>
           )}
         </StyledHeader>
       </Container>

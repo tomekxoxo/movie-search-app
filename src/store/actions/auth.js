@@ -33,6 +33,12 @@ export const auth = (email, password, isSignupMode) => {
   };
 };
 
+export const authLogout = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT,
+  };
+};
+
 export const rateMovie = (movieId, isMovie, score, userId, token) => {
   return (dispatch) => {
     const data = {
@@ -61,12 +67,6 @@ export const rateMovie = (movieId, isMovie, score, userId, token) => {
           rateData: data,
         })
       );
-  };
-};
-
-export const authLogout = () => {
-  return {
-    type: actionTypes.AUTH_LOGOUT,
   };
 };
 
@@ -216,3 +216,34 @@ export const loadWatchListFromDb = (userWatchList) => {
   };
 };
 
+
+export const loadRatedFromDb = (userRatedList) => {
+  return (dispatch) => {
+    let url;
+
+    userRatedList.forEach((element) => {
+      if (element.isMovie) {
+        url = `https://api.themoviedb.org/3/movie/${element.movieId}?api_key=${API_KEY}&language=pl`;
+      } else {
+        url = `https://api.themoviedb.org/3/tv/${element.movieId}?api_key=${API_KEY}&language=pl`;
+      }
+      fetch(url)
+        .then((data) => data.json())
+        .then((res) => {
+          res.vote_average = element.score;
+          if (res.first_air_date) {
+            dispatch({
+              type: actionTypes.FETCH_RATED_SERIES,
+              loadRatedSeries: res
+            });
+          } else {
+            dispatch({
+              type: actionTypes.FETCH_RATED_MOVIES,
+              loadRatedMovies: res,
+            });
+          }
+        })
+        .catch((err) => err);
+    });
+  };
+};

@@ -100,7 +100,7 @@ export const addToWatchList = (movieId, isMovie, userId, token) => {
   };
 };
 
-export const showMovieWatchList = (userId) => {
+export const downloadFirebaseMovieWatchList = (userId) => {
   return (dispatch) => {
     let url = `https://movie-search-3d6f7.firebaseio.com/movies/watchlist.json?orderBy="userId"&equalTo="${userId}"`;
     fetch(url)
@@ -121,7 +121,7 @@ export const showMovieWatchList = (userId) => {
   };
 };
 
-export const showSeriesWatchList = (userId) => {
+export const downloadFirebaseSeriesWatchList = (userId) => {
   return (dispatch) => {
     let url = `https://movie-search-3d6f7.firebaseio.com/series/watchlist.json?orderBy="userId"&equalTo="${userId}"`;
     fetch(url)
@@ -142,7 +142,7 @@ export const showSeriesWatchList = (userId) => {
   };
 };
 
-export const showRatedMovies = (userId) => {
+export const downloadFirebaseRatedMovies = (userId) => {
   return (dispatch) => {
     let url = `https://movie-search-3d6f7.firebaseio.com/movies.json?orderBy="userId"&equalTo="${userId}"`;
     fetch(url)
@@ -164,7 +164,7 @@ export const showRatedMovies = (userId) => {
   };
 };
 
-export const showRatedSeries = (userId) => {
+export const downloadFirebaseRatedSeries = (userId) => {
   return (dispatch) => {
     let url = `https://movie-search-3d6f7.firebaseio.com/series.json?orderBy="userId"&equalTo="${userId}"`;
     fetch(url)
@@ -186,7 +186,7 @@ export const showRatedSeries = (userId) => {
   };
 };
 
-export const loadWatchList = (userWatchList) => {
+export const loadWatchListFromDb = (userWatchList) => {
   return (dispatch) => {
     let url;
 
@@ -215,3 +215,4 @@ export const loadWatchList = (userWatchList) => {
     });
   };
 };
+

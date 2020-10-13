@@ -3,9 +3,10 @@ export {
   rateMovie,
   authLogout,
   addToWatchList,
-  showMovieWatchList,
-  showSeriesWatchList,
-  showRatedMovies,
-  showRatedSeries,
-  loadWatchList
+  downloadFirebaseMovieWatchList,
+  downloadFirebaseSeriesWatchList,
+  downloadFirebaseRatedMovies,
+  downloadFirebaseRatedSeries,
+  loadWatchListFromDb,
+  
 } from "./auth";

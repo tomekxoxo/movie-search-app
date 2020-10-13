@@ -13,8 +13,6 @@ const initialState = {
   loadWatchListSeries: [],
 };
 
-let helper = []
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_SUCCESS:
@@ -67,15 +65,9 @@ const reducer = (state = initialState, action) => {
         loadWatchListMovies: [action.loadWatchListMovies],
       };
     case actionTypes.FETCH_WATCH_LIST_SERIES:
-      
-      let oldObj = { ...state.loadWatchListSeries }
-      for (let key in oldObj) {
-        helper.push(oldObj[key])
-      }
-      console.log(helper);
       return {
         ...state,
-        loadWatchListSeries : helper.concat(action.loadWatchListSeries)
+        loadWatchListSeries : [action.loadWatchListSeries]
       }
     default:
       return state;

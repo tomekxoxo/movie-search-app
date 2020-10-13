@@ -3,6 +3,7 @@ import update from "react-addons-update";
 
 const initialState = {
   authenticated: false,
+  error:null,
   userId: null,
   idToken: null,
   rateData: null,
@@ -21,9 +22,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authenticated: true,
+        error:null,
         userId: action.userId,
         idToken: action.idToken,
         redirectPath: "/",
+      };
+    case actionTypes.AUTH_FAIL:
+      return {
+        ...state,
+        error:action.error
       };
     case actionTypes.RATE_SUCCESS:
       return {

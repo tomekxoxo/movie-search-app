@@ -27,6 +27,9 @@ const StyledForm = styled.form`
       font-size: 1.4rem;
     }
   }
+  .error{
+    color:red
+  }
   .body {
     display: flex;
     flex-direction: column;
@@ -82,6 +85,7 @@ const Auth = (props) => {
     <StyledForm onSubmit={(e) => login(e)}>
       <div className="header">
         <h1>Logowanie</h1>
+        <h2 className="error">{props.error && props.error}</h2>
       </div>
       <div className="body">
         <input
@@ -165,7 +169,8 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.authenticated,
     userId: state.userId,
-    redirectPath:state.redirectPath
+    redirectPath: state.redirectPath,
+    error: state.error
   };
 };
 

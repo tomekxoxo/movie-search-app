@@ -23,13 +23,19 @@ export const auth = (email, password, isSignupMode) => {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((data) =>
+      .then((data) => {
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
         dispatch({
           type: actionTypes.AUTH_SUCCESS,
           idToken: data.idToken,
           userId: data.localId,
-        })
-      );
+        });
+      })
+      .catch((error) => {
+        dispatch({ type: actionTypes.AUTH_FAIL, error: error.message });
+      });
   };
 };
 
@@ -202,7 +208,7 @@ export const loadWatchListFromDb = (userWatchList) => {
           if (res.first_air_date) {
             dispatch({
               type: actionTypes.FETCH_WATCH_LIST_SERIES,
-              loadWatchListSeries: res
+              loadWatchListSeries: res,
             });
           } else {
             dispatch({
@@ -215,7 +221,6 @@ export const loadWatchListFromDb = (userWatchList) => {
     });
   };
 };
-
 
 export const loadRatedFromDb = (userRatedList) => {
   return (dispatch) => {
@@ -234,7 +239,7 @@ export const loadRatedFromDb = (userRatedList) => {
           if (res.first_air_date) {
             dispatch({
               type: actionTypes.FETCH_RATED_SERIES,
-              loadRatedSeries: res
+              loadRatedSeries: res,
             });
           } else {
             dispatch({
@@ -249,7 +254,7 @@ export const loadRatedFromDb = (userRatedList) => {
 };
 
 export const reloadAccountData = () => {
-  return dispatch => {
-    dispatch({type:actionTypes.RELOAD_ACCOUNT_DATA})
-  }
-}
+  return (dispatch) => {
+    dispatch({ type: actionTypes.RELOAD_ACCOUNT_DATA });
+  };
+};

@@ -57,7 +57,7 @@ const SearchTv = (props) => {
             {!isNaN(dateEnd) && dateEnd})
           </h1>
           <h1 className="genres">{genreFound}</h1>
-          <HoverRating movieId={id} isMovie={false}/>
+          <HoverRating movieId={seriesID} isMovie={false}/>
           <p className="rating">
             <i className="material-icons">star</i>
             {defaultMovies.vote_average}

@@ -15,6 +15,7 @@ const SearchMovie = (props) => {
   const [loading, setLoading] = useState(true);
   const [movieID, setMovieId] = useState(null);
 
+
   useEffect(() => {
     fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=pl&query=${id}&page=1&include_adult=false`
@@ -52,7 +53,7 @@ const SearchMovie = (props) => {
             {new Date(defaultMovies.release_date).getFullYear()})
           </h1>
           <h1 className="genres">{genreFound}</h1>
-          <HoverRating movieId={id} isMovie={true}/>
+          <HoverRating movieId={movieID} isMovie={true}/>
           <p className="rating">
             <i className="material-icons">star</i>
             {defaultMovies.vote_average}

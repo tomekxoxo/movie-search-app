@@ -5,7 +5,7 @@ import ImageNotFound from "../../assets/images/image-not-found.png";
 import { IMG_PATH } from "../../App";
 
 const StyledCard = styled(Link)`
-  width: 100%;
+  width: ${props => props.width? props.width : '100%'};
   height: 45rem;
   position: relative;
   text-align: center;
@@ -56,7 +56,7 @@ const StyledCard = styled(Link)`
 const MovieCard = (props) => {
   return (
     <div>
-      <StyledCard
+      <StyledCard width={props.width}
         to={`${props.isMovie ? "movies" : "series"}/${props.movieId}`}
       >
         {props.poster ? (

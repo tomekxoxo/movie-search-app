@@ -8,5 +8,6 @@ export {
   downloadFirebaseRatedMovies,
   downloadFirebaseRatedSeries,
   loadWatchListFromDb,
-  loadRatedFromDb
+  loadRatedFromDb,
+  reloadAccountData
 } from "./auth";

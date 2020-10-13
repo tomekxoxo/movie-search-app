@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import StyledGridContainer from "../common/StyledGridContainer";
 import MovieCard from "../Movies/MovieCard";
 import { IMG_PATH } from "../../App";
 import styled from "styled-components";
+import { useForkRef } from "@material-ui/core";
+
+const StyledGridContainer = styled.div`
+  margin-bottom: 5rem;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 const StyledContainer = styled.div`
   h1 {
@@ -24,9 +31,10 @@ const Account = (props) => {
     onloadWatchListFromDb,
     loadWatchListSeries,
     loadWatchListMovies,
-    onloadRatedFromDb,
     loadRatedMovies,
-    loadRatedSeries
+    loadRatedSeries,
+    onloadRatedFromDb,
+    onReloadData
   } = props;
 
   useEffect(() => {
@@ -34,6 +42,9 @@ const Account = (props) => {
     ondownloadFirebaseRatedSeries(userId);
     ondownloadFirebaseMovieWatchList(userId);
     ondownloadFirebaseSeriesWatchList(userId);
+    return () => {
+      onReloadData()
+    }
   }, [userId]);
 
   useEffect(() => {
@@ -54,6 +65,7 @@ const Account = (props) => {
     watchListMovies = loadWatchListMovies.map((movie) => {
       return (
         <MovieCard
+          width="300px"
           isMovie={true}
           key={movie.id}
           movieId={movie.id}
@@ -71,6 +83,7 @@ const Account = (props) => {
     watchListSeries = loadWatchListSeries.map((serie) => {
       return (
         <MovieCard
+          width="300px"
           isMovie={false}
           key={serie.id}
           movieId={serie.id}
@@ -86,6 +99,7 @@ const Account = (props) => {
   ratedMoviesArr = loadRatedMovies.map((movie) => {
     return (
       <MovieCard
+        width="300px"
         isMovie={true}
         key={movie.id}
         movieId={movie.id}
@@ -101,6 +115,7 @@ const Account = (props) => {
   ratedSeriesArr = loadRatedSeries.map((serie) => {
     return (
       <MovieCard
+        width="300px"
         isMovie={false}
         key={serie.id}
         movieId={serie.id}
@@ -160,6 +175,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onloadRatedFromDb: (userRatedList) => {
       dispatch(actions.loadRatedFromDb(userRatedList));
+    },
+    onReloadData: () => {
+      dispatch(actions.reloadAccountData());
     },
   };
 };

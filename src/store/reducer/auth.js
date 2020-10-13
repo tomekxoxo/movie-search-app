@@ -78,22 +78,27 @@ const reducer = (state = initialState, action) => {
           action.loadWatchListSeries,
         ],
       };
-      case actionTypes.FETCH_RATED_MOVIES:
-        return {
-          ...state,
-          loadRatedMovies: [
-            ...state.loadRatedMovies,
-            action.loadRatedMovies,
-          ],
-        };
-      case actionTypes.FETCH_RATED_SERIES:
-        return {
-          ...state,
-          loadRatedSeries: [
-            ...state.loadRatedSeries,
-            action.loadRatedSeries,
-          ],
-        };
+    case actionTypes.FETCH_RATED_MOVIES:
+      return {
+        ...state,
+        loadRatedMovies: [...state.loadRatedMovies, action.loadRatedMovies],
+      };
+    case actionTypes.FETCH_RATED_SERIES:
+      return {
+        ...state,
+        loadRatedSeries: [...state.loadRatedSeries, action.loadRatedSeries],
+      };
+    case actionTypes.RELOAD_ACCOUNT_DATA:
+      return {
+        ...state,
+        userWatchList: null,
+        userRatedList: null,
+        redirectPath: "/",
+        loadWatchListMovies: [],
+        loadWatchListSeries: [],
+        loadRatedMovies: [],
+        loadRatedSeries: [],
+      };
     default:
       return state;
   }

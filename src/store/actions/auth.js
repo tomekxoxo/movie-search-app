@@ -247,3 +247,9 @@ export const loadRatedFromDb = (userRatedList) => {
     });
   };
 };
+
+export const reloadAccountData = () => {
+  return dispatch => {
+    dispatch({type:actionTypes.RELOAD_ACCOUNT_DATA})
+  }
+}

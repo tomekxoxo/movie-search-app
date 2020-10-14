@@ -13,7 +13,7 @@ const StyledForm = styled.form`
   margin: auto;
   width: 100%;
   max-width: 40rem;
-  background-color: #eee;
+  border:1px solid #b3b3b3;
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
@@ -37,7 +37,7 @@ const StyledForm = styled.form`
     input {
       padding: 1rem 1rem;
       margin: 1rem 2rem;
-      border: none;
+      border:1px solid #b3b3b3;
       border-radius: 0.5rem;
       font-size: 1.6rem;
     }
@@ -45,7 +45,9 @@ const StyledForm = styled.form`
       cursor: pointer;
       padding: 1rem 1rem;
       margin: 1rem 2rem;
-      border: none;
+      color: #fff;
+      background-color:#1c1c1c;
+      border:1px solid #1c1c1c;
       border-radius: 0.5rem;
       font-size: 1.6rem;
     }

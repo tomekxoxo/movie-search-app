@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 import MovieCard from "../Movies/MovieCard";
 import { IMG_PATH } from "../../App";
 import styled from "styled-components";
-import { useForkRef } from "@material-ui/core";
+import Loader from '../UI/Loader';
 
 const StyledGridContainer = styled.div`
   margin-bottom: 5rem;
@@ -34,7 +34,9 @@ const Account = (props) => {
     loadRatedMovies,
     loadRatedSeries,
     onloadRatedFromDb,
-    onReloadData
+    onReloadData,
+    loadingRated,
+    loadingWatchList
   } = props;
 
   useEffect(() => {
@@ -43,8 +45,8 @@ const Account = (props) => {
     ondownloadFirebaseMovieWatchList(userId);
     ondownloadFirebaseSeriesWatchList(userId);
     return () => {
-      onReloadData()
-    }
+      onReloadData();
+    };
   }, [userId]);
 
   useEffect(() => {
@@ -65,7 +67,7 @@ const Account = (props) => {
     watchListMovies = loadWatchListMovies.map((movie) => {
       return (
         <MovieCard
-          width="300px"
+          width="250px"
           isMovie={true}
           key={movie.id}
           movieId={movie.id}
@@ -83,7 +85,7 @@ const Account = (props) => {
     watchListSeries = loadWatchListSeries.map((serie) => {
       return (
         <MovieCard
-          width="300px"
+          width="250px"
           isMovie={false}
           key={serie.id}
           movieId={serie.id}
@@ -99,7 +101,7 @@ const Account = (props) => {
   ratedMoviesArr = loadRatedMovies.map((movie) => {
     return (
       <MovieCard
-        width="300px"
+        width="250px"
         isMovie={true}
         key={movie.id}
         movieId={movie.id}
@@ -115,12 +117,12 @@ const Account = (props) => {
   ratedSeriesArr = loadRatedSeries.map((serie) => {
     return (
       <MovieCard
-        width="300px"
+        width="250px"
         isMovie={false}
         key={serie.id}
         movieId={serie.id}
         background={`${IMG_PATH}${serie.backdrop_path}`}
-        title={serie.title}
+        title={serie.original_name}
         poster={serie.poster_path}
         poster={serie.poster_path}
         avg={serie.vote_average}
@@ -132,13 +134,13 @@ const Account = (props) => {
     <React.Fragment>
       <StyledContainer>
         <h1>OCENIONE FILMY</h1>
-        <StyledGridContainer>{ratedMoviesArr}</StyledGridContainer>
+        <StyledGridContainer>{loadingRated?<Loader/> :ratedMoviesArr}</StyledGridContainer>
         <h1>NAJBARDZIEJ CHCĘ ZOBACZYĆ</h1>
-        <StyledGridContainer>{watchListMovies}</StyledGridContainer>
+        <StyledGridContainer>{loadingWatchList? <Loader/>:watchListMovies}</StyledGridContainer>
         <h1>OCENIONE SERIALE</h1>
-        <StyledGridContainer>{ratedSeriesArr}</StyledGridContainer>
+        <StyledGridContainer>{loadingRated ? <Loader/> : ratedSeriesArr}</StyledGridContainer>
         <h1>NAJBARDZIEJ CHCĘ ZOBACZYĆ</h1>
-        <StyledGridContainer>{watchListSeries}</StyledGridContainer>
+        <StyledGridContainer>{loadingWatchList? <Loader/> : watchListSeries}</StyledGridContainer>
       </StyledContainer>
     </React.Fragment>
   );
@@ -153,6 +155,8 @@ const mapStateToProps = (state) => {
     loadWatchListSeries: state.loadWatchListSeries,
     loadRatedMovies: state.loadRatedMovies,
     loadRatedSeries: state.loadRatedSeries,
+    loadingRated: state.loadingRated,
+    loadingWatchList: state.loadingWatchList,
   };
 };
 

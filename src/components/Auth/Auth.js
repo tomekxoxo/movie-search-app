@@ -28,7 +28,8 @@ const StyledForm = styled.form`
     }
   }
   .error{
-    color:red
+    color:red;
+    text-transform:uppercase;
   }
   .body {
     display: flex;

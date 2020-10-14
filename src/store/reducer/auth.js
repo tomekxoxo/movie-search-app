@@ -14,6 +14,8 @@ const initialState = {
   loadWatchListSeries: [],
   loadRatedMovies: [],
   loadRatedSeries: [],
+  loadingRated: true,
+  loadingWatchList:true
 };
 
 const reducer = (state = initialState, action) => {
@@ -105,7 +107,19 @@ const reducer = (state = initialState, action) => {
         loadWatchListSeries: [],
         loadRatedMovies: [],
         loadRatedSeries: [],
+        loadingRated: true, 
+        loadingWatchList:true
       };
+      case actionTypes.LOADING_RATED:
+        return {
+          ...state,
+          loadingRated:false
+      };
+      case actionTypes.LOADING_WATCH_LIST:
+        return {
+          ...state,
+          loadingWatchList:false
+        };
     default:
       return state;
   }

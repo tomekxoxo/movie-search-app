@@ -219,6 +219,7 @@ export const loadWatchListFromDb = (userWatchList) => {
         })
         .catch((err) => err);
     });
+    dispatch({type:actionTypes.LOADING_WATCH_LIST})
   };
 };
 
@@ -250,6 +251,7 @@ export const loadRatedFromDb = (userRatedList) => {
         })
         .catch((err) => err);
     });
+    dispatch({type:actionTypes.LOADING_RATED})
   };
 };
 

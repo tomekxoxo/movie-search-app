@@ -6,7 +6,7 @@ import { IMG_PATH } from "../../App";
 
 const StyledCard = styled(Link)`
   width: ${props => props.width? props.width : '100%'};
-  height: 45rem;
+  height: ${props => props.height? props.height : '45rem'};
   position: relative;
   text-align: center;
   display: flex;
@@ -56,7 +56,7 @@ const StyledCard = styled(Link)`
 const MovieCard = (props) => {
   return (
     <div>
-      <StyledCard width={props.width}
+      <StyledCard width={props.width} height={props.height}
         to={`${props.isMovie ? "movies" : "series"}/${props.movieId}`}
       >
         {props.poster ? (

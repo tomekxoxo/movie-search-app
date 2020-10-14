@@ -3,7 +3,7 @@ import update from "react-addons-update";
 
 const initialState = {
   authenticated: false,
-  error:null,
+  error: null,
   userId: null,
   idToken: null,
   rateData: null,
@@ -15,7 +15,8 @@ const initialState = {
   loadRatedMovies: [],
   loadRatedSeries: [],
   loadingRated: true,
-  loadingWatchList:true
+  loadingWatchList: true,
+  reloadAfterItemDelete: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -24,7 +25,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authenticated: true,
-        error:null,
+        error: null,
         userId: action.userId,
         idToken: action.idToken,
         redirectPath: "/",
@@ -32,7 +33,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.AUTH_FAIL:
       return {
         ...state,
-        error:action.error
+        error: action.error,
       };
     case actionTypes.RATE_SUCCESS:
       return {
@@ -107,19 +108,30 @@ const reducer = (state = initialState, action) => {
         loadWatchListSeries: [],
         loadRatedMovies: [],
         loadRatedSeries: [],
-        loadingRated: true, 
-        loadingWatchList:true
+        loadingRated: true,
+        loadingWatchList: true,
+        reloadAfterItemDelete: false
       };
-      case actionTypes.LOADING_RATED:
-        return {
-          ...state,
-          loadingRated:false
+    case actionTypes.LOADING_RATED:
+      return {
+        ...state,
+        loadingRated: false,
       };
-      case actionTypes.LOADING_WATCH_LIST:
-        return {
-          ...state,
-          loadingWatchList:false
-        };
+    case actionTypes.LOADING_WATCH_LIST:
+      return {
+        ...state,
+        loadingWatchList: false,
+      };
+    case actionTypes.DELETE_ITEM_SUCCESS:
+      return {
+        ...state,
+        reloadAfterItemDelete:true
+      };
+    case actionTypes.DELETE_ITEM_FAIL:
+      return {
+        ...state,
+        error: action.error,
+      };
     default:
       return state;
   }

@@ -9,5 +9,6 @@ export {
   downloadFirebaseRatedSeries,
   loadWatchListFromDb,
   loadRatedFromDb,
-  reloadAccountData
+  reloadAccountData,
+  deleteItemFromDb
 } from "./auth";

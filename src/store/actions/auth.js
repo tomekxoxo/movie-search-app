@@ -115,6 +115,7 @@ export const downloadFirebaseMovieWatchList = (userId) => {
         let fetchedData = [];
         for (let key in data) {
           fetchedData.push({
+            hash: key,
             isMovie: true,
             movieId: Number(data[key]["movieId"]),
           });
@@ -136,6 +137,7 @@ export const downloadFirebaseSeriesWatchList = (userId) => {
         let fetchedData = [];
         for (let key in data) {
           fetchedData.push({
+            hash: key,
             isMovie: false,
             movieId: Number(data[key]["movieId"]),
           });
@@ -157,6 +159,7 @@ export const downloadFirebaseRatedMovies = (userId) => {
         let fetchedData = [];
         for (let key in data) {
           fetchedData.push({
+            hash: key,
             isMovie: true,
             movieId: Number(data[key]["movieId"]),
             score: Number(data[key]["score"]),
@@ -179,6 +182,7 @@ export const downloadFirebaseRatedSeries = (userId) => {
         let fetchedData = [];
         for (let key in data) {
           fetchedData.push({
+            hash: key,
             isMovie: false,
             movieId: Number(data[key]["movieId"]),
             score: Number(data[key]["score"]),
@@ -205,6 +209,7 @@ export const loadWatchListFromDb = (userWatchList) => {
       fetch(url)
         .then((data) => data.json())
         .then((res) => {
+          res.firebaseHash = element.hash;
           if (res.first_air_date) {
             dispatch({
               type: actionTypes.FETCH_WATCH_LIST_SERIES,
@@ -219,7 +224,7 @@ export const loadWatchListFromDb = (userWatchList) => {
         })
         .catch((err) => err);
     });
-    dispatch({type:actionTypes.LOADING_WATCH_LIST})
+    dispatch({ type: actionTypes.LOADING_WATCH_LIST });
   };
 };
 
@@ -237,6 +242,7 @@ export const loadRatedFromDb = (userRatedList) => {
         .then((data) => data.json())
         .then((res) => {
           res.vote_average = element.score;
+          res.firebaseHash = element.hash;
           if (res.first_air_date) {
             dispatch({
               type: actionTypes.FETCH_RATED_SERIES,
@@ -251,12 +257,43 @@ export const loadRatedFromDb = (userRatedList) => {
         })
         .catch((err) => err);
     });
-    dispatch({type:actionTypes.LOADING_RATED})
+    dispatch({ type: actionTypes.LOADING_RATED });
   };
 };
 
 export const reloadAccountData = () => {
   return (dispatch) => {
     dispatch({ type: actionTypes.RELOAD_ACCOUNT_DATA });
+  };
+};
+
+export const deleteItemFromDb = (hash, isMovie, isRated, token) => {
+  return (dispatch) => {
+    let url = null;
+    if (!isMovie) {
+      url = `https://movie-search-3d6f7.firebaseio.com/series/${hash}.json?auth=${token}`;
+      if (!isRated) {
+        url = `https://movie-search-3d6f7.firebaseio.com/series/watchlist/${hash}.json?auth=${token}`;
+      }
+    }
+    else {
+      url = `https://movie-search-3d6f7.firebaseio.com/movies/${hash}.json?auth=${token}`;
+      if (!isRated) {
+        url = `https://movie-search-3d6f7.firebaseio.com/movies/watchlist/${hash}.json?auth=${token}`;
+      }
+    }
+    fetch(
+      url,
+      { method: "DELETE" }
+    ).then((data) => {
+      if (data.status === 200) {
+        dispatch({ type: actionTypes.DELETE_ITEM_SUCCESS })
+      }
+      else {
+        throw new Error(data.error.message);
+      }
+    }).catch(error => {
+      dispatch({ type: actionTypes.DELETE_ITEM_FAIL, error: error.message });
+    })
   };
 };

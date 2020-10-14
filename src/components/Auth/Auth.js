@@ -50,6 +50,9 @@ const StyledForm = styled.form`
       border:1px solid #1c1c1c;
       border-radius: 0.5rem;
       font-size: 1.6rem;
+      &:focus{
+        transform:scale(1.05);
+      }
     }
     div {
       font-size: 1.2rem;
@@ -97,18 +100,20 @@ const Auth = (props) => {
           name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required={true}
         />
         <input
           type="password"
           placeholder="Hasło"
           name="password"
           value={password}
+          required={true}
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit">Zaloguj</button>
         <div>
           Nie masz jeszcze konta?{" "}
-          <p onClick={() => setSignIn(false)}>rejestracja</p>
+          <p onClick={() => setSignIn(false)} tabIndex={0}>rejestracja</p>
         </div>
       </div>
     </StyledForm>
@@ -139,6 +144,7 @@ const Auth = (props) => {
             type="email"
             placeholder="Email"
             name="email"
+            required={true}
             value={regEmail}
             onChange={(e) => setRegEmail(e.target.value)}
           />
@@ -146,6 +152,7 @@ const Auth = (props) => {
             type="password"
             placeholder="Hasło"
             name="password"
+            required={true}
             value={regPassword}
             onChange={(e) => setRegPassword(e.target.value)}
           />
@@ -156,7 +163,7 @@ const Auth = (props) => {
           /> */}
           <button type="submit">Zarejestruj</button>
           <div>
-            Masz już konto? <p onClick={() => setSignIn(true)}>Logowanie</p>
+            Masz już konto? <p onClick={() => setSignIn(true)} tabIndex={0}>Logowanie</p>
           </div>
         </div>
       </StyledForm>

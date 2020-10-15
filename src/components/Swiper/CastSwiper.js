@@ -12,6 +12,7 @@ import "./CastSwiper.css";
 import styled from "styled-components";
 import { API_KEY, IMG_PATH } from "../../App";
 import ImageNotFound from "../../assets/images/image-not-found.png";
+import Loader from '../UI/Loader';
 
 const SwiperContainer = styled.div`
   margin: 2rem 0;
@@ -44,6 +45,7 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Lazy]);
 
 const CastSwiper = (props) => {
   const [cast, setCast] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   let url = `https://api.themoviedb.org/3/${props.type}/${props.id}/credits?api_key=${API_KEY}&language=pl`;
   if (props.type === "person") {
@@ -62,6 +64,7 @@ const CastSwiper = (props) => {
     fetch(url)
       .then((data) => data.json())
       .then((res) => {
+        setLoading(false)
         if (
           props.type === "toprated" ||
           props.type === "popular" ||
@@ -181,7 +184,7 @@ const CastSwiper = (props) => {
           },
         }}
       >
-        {castArr}
+        {loading? <Loader/> : castArr}
       </Swiper>
     </SwiperContainer>
   );

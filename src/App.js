@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "./components/Navigation/NavBar";
+import Footer from "./components/footer/Footer";
 import styled from "styled-components";
 import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import Films from "./components/Movies/Films";
@@ -15,13 +16,13 @@ import Main from "./components/MainPage/Main";
 import Account from "./components/Account/Account";
 import { connect } from "react-redux";
 
-export const Container = styled.div`
-  width: 100%;
-  max-width: 120rem;
-  margin: 0 auto;
-  padding: 0 1rem;
-  margin-top: 10rem;
-`;
+// export const Container = styled.div`
+//   width: 100%;
+//   max-width: 120rem;
+//   margin: 0 auto;
+//   padding: 0 1rem;
+//   margin-top: 10rem;
+// `;
 
 const API_KEY = "5164c32e4ce67e20eb6052f1f8215c14";
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
@@ -44,73 +45,74 @@ function App(props) {
   };
 
   return (
-    <div>
-      <NavBar
-        submitted={submitTitleHandler}
-        toggleSideDrawer={toggledSideDrawerHandler}
-      />
-      {sideDrawer && (
-        <SideDrawer
+    <React.Fragment>
+      <div>
+        <NavBar
           submitted={submitTitleHandler}
           toggleSideDrawer={toggledSideDrawerHandler}
-          isOpen={sideDrawer}
         />
-      )}
-      <Container>
-        <Switch>
-          <Route path={process.env.PUBLIC_URL + "/"} exact component={Main} />
-          <Route
-            path={process.env.PUBLIC_URL + "/auth"}
-            exact
-            component={Auth}
+        {sideDrawer && (
+          <SideDrawer
+            submitted={submitTitleHandler}
+            toggleSideDrawer={toggledSideDrawerHandler}
+            isOpen={sideDrawer}
           />
-          {props.isAuthenticated && (
+        )}
+          <Switch>
+            <Route path={process.env.PUBLIC_URL + "/"} exact component={Main} />
             <Route
-              path={process.env.PUBLIC_URL + "/account"}
+              path={process.env.PUBLIC_URL + "/auth"}
               exact
-              component={Account}
+              component={Auth}
             />
-          )}
+            {props.isAuthenticated && (
+              <Route
+                path={process.env.PUBLIC_URL + "/account"}
+                exact
+                component={Account}
+              />
+            )}
 
-          <Route
-            path={process.env.PUBLIC_URL + "/movies"}
-            exact
-            component={Films}
-          />
-          <Route
-            path={process.env.PUBLIC_URL + "/movies/:id"}
-            exact
-            component={MovieDetail}
-          />
-          <Route
-            path={process.env.PUBLIC_URL + "/series"}
-            exact
-            component={Series}
-          />
-          <Route
-            path={process.env.PUBLIC_URL + "/series/:id"}
-            exact
-            component={SeriesDetail}
-          />
-          <Route
-            path={process.env.PUBLIC_URL + "/series/search/tv/:id"}
-            exact
-            component={SearchTv}
-          />
-          <Route
-            path={process.env.PUBLIC_URL + "/movies/search/movies/:id"}
-            exact
-            component={SearchMovie}
-          />
-          <Route
-            path={process.env.PUBLIC_URL + "/people/:id"}
-            exact
-            component={People}
-          />
-          <Route render={() => <h1>Page not Found</h1>} />
-        </Switch>
-      </Container>
-    </div>
+            <Route
+              path={process.env.PUBLIC_URL + "/movies"}
+              exact
+              component={Films}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/movies/:id"}
+              exact
+              component={MovieDetail}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/series"}
+              exact
+              component={Series}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/series/:id"}
+              exact
+              component={SeriesDetail}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/series/search/tv/:id"}
+              exact
+              component={SearchTv}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/movies/search/movies/:id"}
+              exact
+              component={SearchMovie}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/people/:id"}
+              exact
+              component={People}
+            />
+            <Route render={() => <h1>Page not Found</h1>} />
+          </Switch>
+      </div>
+      {/* <Footer /> */}
+    </React.Fragment>
   );
 }
 

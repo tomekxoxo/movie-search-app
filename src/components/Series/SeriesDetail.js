@@ -4,7 +4,9 @@ import { API_KEY, IMG_PATH } from "../../App";
 import Loader from "../UI/Loader";
 import StyledWrapper from "../common/StyledWrapper";
 import CastSwiper from "../Swiper/CastSwiper";
-import HoverRating from '../Rating/Rating';
+import HoverRating from "../Rating/Rating";
+import Container from "../common/Container";
+import Footer from "../footer/Footer";
 
 const SeriesDetail = () => {
   let { id } = useParams();
@@ -61,24 +63,27 @@ const SeriesDetail = () => {
   } else {
     return (
       <React.Fragment>
-        <StyledWrapper>
-          <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
-          <div className="info">
-            <h1>
-              {defaultMovies.name}({dateStart}-{!isNaN(dateEnd) && dateEnd})
-            </h1>
-            <h1 className="genres">{genres}</h1>
-            <HoverRating movieId={id} isMovie={false}/>
-            <p className="rating">
-              <i className="material-icons">star</i>
-              {defaultMovies.vote_average}
-            </p>
-            <h1 className="seasons">{seasons}</h1>
-            <p>{defaultMovies.release_date}</p>
-            <p>{defaultMovies.overview}</p>
-          </div>
-        </StyledWrapper>
-        <CastSwiper id={id} type="tv"/>
+        <Container>
+          <StyledWrapper>
+            <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
+            <div className="info">
+              <h1>
+                {defaultMovies.name}({dateStart}-{!isNaN(dateEnd) && dateEnd})
+              </h1>
+              <h1 className="genres">{genres}</h1>
+              <HoverRating movieId={id} isMovie={false} />
+              <p className="rating">
+                <i className="material-icons">star</i>
+                {defaultMovies.vote_average}
+              </p>
+              <h1 className="seasons">{seasons}</h1>
+              <p>{defaultMovies.release_date}</p>
+              <p>{defaultMovies.overview}</p>
+            </div>
+          </StyledWrapper>
+          <CastSwiper id={id} type="tv" />
+        </Container>
+        <Footer />
       </React.Fragment>
     );
   }

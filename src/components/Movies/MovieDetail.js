@@ -4,7 +4,9 @@ import { API_KEY, IMG_PATH } from "../../App";
 import Loader from "../UI/Loader";
 import StyledWrapper from "../common/StyledWrapper";
 import CastSwiper from "../Swiper/CastSwiper";
-import HoverRating from '../Rating/Rating';
+import HoverRating from "../Rating/Rating";
+import Container from "../common/Container";
+import Footer from "../footer/Footer";
 
 const MovieDetail = () => {
   let { id } = useParams();
@@ -39,29 +41,32 @@ const MovieDetail = () => {
   } else {
     return (
       <React.Fragment>
-        <StyledWrapper>
-          <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
-          <div className="info">
-            <h1>
-              {defaultMovies.title}(
-              {new Date(defaultMovies.release_date).getFullYear()})
-            </h1>
-            <h1 className="genres">{genres}</h1>
-            <HoverRating movieId={id} isMovie={true}/>
-            <p className="rating">
-              <i className="material-icons">star</i>
-              {defaultMovies.vote_average}
-            </p>
-            <p className="release-date">
-              <i className="fas fa-video"></i>
-              {defaultMovies.release_date}
-            </p>
-            <p>{defaultMovies.runtime} min</p>
+        <Container>
+          <StyledWrapper>
+            <img src={`${IMG_PATH}${defaultMovies.poster_path}`}></img>
+            <div className="info">
+              <h1>
+                {defaultMovies.title}(
+                {new Date(defaultMovies.release_date).getFullYear()})
+              </h1>
+              <h1 className="genres">{genres}</h1>
+              <HoverRating movieId={id} isMovie={true} />
+              <p className="rating">
+                <i className="material-icons">star</i>
+                {defaultMovies.vote_average}
+              </p>
+              <p className="release-date">
+                <i className="fas fa-video"></i>
+                {defaultMovies.release_date}
+              </p>
+              <p>{defaultMovies.runtime} min</p>
 
-            <p>{defaultMovies.overview}</p>
-          </div>
-        </StyledWrapper>
-        <CastSwiper id={id} type="movie" />
+              <p>{defaultMovies.overview}</p>
+            </div>
+          </StyledWrapper>
+          <CastSwiper id={id} type="movie" />
+        </Container>
+        <Footer />
       </React.Fragment>
     );
   }

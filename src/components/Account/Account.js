@@ -7,9 +7,10 @@ import styled from "styled-components";
 import Loader from "../UI/Loader";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "./CastSwiperCustom.css";
-import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+import Container from "../common/Container";
+import Footer from "../footer/Footer";
 
 const StyledGridContainer = styled.div`
   margin-bottom: 5rem;
@@ -61,7 +62,6 @@ const Account = (props) => {
     reloadAfterItemDelete,
   } = props;
 
-
   useEffect(() => {
     if (reloadAfterItemDelete) {
       onReloadData();
@@ -70,7 +70,7 @@ const Account = (props) => {
       ondownloadFirebaseMovieWatchList(userId);
       ondownloadFirebaseSeriesWatchList(userId);
     }
-  },[reloadAfterItemDelete])
+  }, [reloadAfterItemDelete]);
 
   useEffect(() => {
     ondownloadFirebaseRatedMovies(userId);
@@ -138,12 +138,7 @@ const Account = (props) => {
           />
           <DeleteButton
             onClick={() =>
-              onDeleteItemFromDb(
-                movie.firebaseHash,
-                true,
-                false,
-                idToken
-              )
+              onDeleteItemFromDb(movie.firebaseHash, true, false, idToken)
             }
           >
             <i className="fas fa-trash-alt"></i>
@@ -169,12 +164,7 @@ const Account = (props) => {
           />
           <DeleteButton
             onClick={() =>
-              onDeleteItemFromDb(
-                serie.firebaseHash,
-                false,
-                false,
-                idToken
-              )
+              onDeleteItemFromDb(serie.firebaseHash, false, false, idToken)
             }
           >
             <i className="fas fa-trash-alt"></i>
@@ -210,136 +200,139 @@ const Account = (props) => {
 
   return (
     <React.Fragment>
-      <StyledContainer>
-        <h1>FILMY: TWOJA OCENA</h1>
-        <Swiper
-          className="swiper-custom"
-          spaceBetween={50}
-          slidesPerView={6}
-          scrollbar={{ draggable: true }}
-          navigation
-          breakpoints={{
-            320: {
-              slidesPerView: 1,
-              spaceBetweenSlides: 5,
-            },
-            480: {
-              slidesPerView: 2,
-              spaceBetweenSlides: 15,
-            },
-            610: {
-              slidesPerView: 3,
-              spaceBetweenSlides: 25,
-            },
-            768: {
-              slidesPerView: 4,
-              spaceBetweenSlides: 25,
-            },
-            900: {
-              slidesPerView: 5,
-              spaceBetweenSlides: 50,
-            },
-          }}
-        >
-          {loadingRated ? <Loader /> : ratedMoviesArr}
-        </Swiper>
-        <h1>FILMY: CHCĘ ZOBACZYĆ</h1>
-        <Swiper
-          className="swiper-custom"
-          spaceBetween={50}
-          slidesPerView={6}
-          scrollbar={{ draggable: true }}
-          navigation
-          breakpoints={{
-            320: {
-              slidesPerView: 1,
-              spaceBetweenSlides: 5,
-            },
-            480: {
-              slidesPerView: 2,
-              spaceBetweenSlides: 15,
-            },
-            610: {
-              slidesPerView: 3,
-              spaceBetweenSlides: 25,
-            },
-            768: {
-              slidesPerView: 4,
-              spaceBetweenSlides: 25,
-            },
-            900: {
-              slidesPerView: 5,
-              spaceBetweenSlides: 50,
-            },
-          }}
-        >
-          {loadingWatchList ? <Loader /> : watchListMovies}
-        </Swiper>
-        <h1>SERIALE: TWOJA OCENA</h1>
-        <Swiper
-          className="swiper-custom"
-          spaceBetween={50}
-          slidesPerView={6}
-          scrollbar={{ draggable: true }}
-          navigation
-          breakpoints={{
-            320: {
-              slidesPerView: 1,
-              spaceBetweenSlides: 5,
-            },
-            480: {
-              slidesPerView: 2,
-              spaceBetweenSlides: 15,
-            },
-            610: {
-              slidesPerView: 3,
-              spaceBetweenSlides: 25,
-            },
-            768: {
-              slidesPerView: 4,
-              spaceBetweenSlides: 25,
-            },
-            900: {
-              slidesPerView: 5,
-              spaceBetweenSlides: 50,
-            },
-          }}
-        >
-          {loadingRated ? <Loader /> : ratedSeriesArr}
-        </Swiper>
-        <h1>SERIALE: CHCĘ ZOBACZYĆ</h1>
-        <Swiper
-          className="swiper-custom"
-          spaceBetween={50}
-          slidesPerView={6}
-          scrollbar={{ draggable: true }}
-          navigation
-          breakpoints={{
-            320: {
-              slidesPerView: 1,
-              spaceBetweenSlides: 5,
-            },
-            480: {
-              slidesPerView: 2,
-              spaceBetweenSlides: 15,
-            },
-            610: {
-              slidesPerView: 3,
-              spaceBetweenSlides: 25,
-            },
-            768: {
-              slidesPerView: 4,
-              spaceBetweenSlides: 25,
-            },
-            900: {
-              slidesPerView: 5,
-              spaceBetweenSlides: 50,
-            },
-          }}
-        >
-          {loadingWatchList ? <Loader /> : watchListSeries}
-        </Swiper>
-      </StyledContainer>
+      <Container>
+        <StyledContainer>
+          <h1>FILMY: TWOJA OCENA</h1>
+          <Swiper
+            className="swiper-custom"
+            spaceBetween={50}
+            slidesPerView={6}
+            scrollbar={{ draggable: true }}
+            navigation
+            breakpoints={{
+              320: {
+                slidesPerView: 1,
+                spaceBetweenSlides: 5,
+              },
+              480: {
+                slidesPerView: 2,
+                spaceBetweenSlides: 15,
+              },
+              610: {
+                slidesPerView: 3,
+                spaceBetweenSlides: 25,
+              },
+              768: {
+                slidesPerView: 4,
+                spaceBetweenSlides: 25,
+              },
+              900: {
+                slidesPerView: 5,
+                spaceBetweenSlides: 50,
+              },
+            }}
+          >
+            {loadingRated ? <Loader /> : ratedMoviesArr}
+          </Swiper>
+          <h1>FILMY: CHCĘ ZOBACZYĆ</h1>
+          <Swiper
+            className="swiper-custom"
+            spaceBetween={50}
+            slidesPerView={6}
+            scrollbar={{ draggable: true }}
+            navigation
+            breakpoints={{
+              320: {
+                slidesPerView: 1,
+                spaceBetweenSlides: 5,
+              },
+              480: {
+                slidesPerView: 2,
+                spaceBetweenSlides: 15,
+              },
+              610: {
+                slidesPerView: 3,
+                spaceBetweenSlides: 25,
+              },
+              768: {
+                slidesPerView: 4,
+                spaceBetweenSlides: 25,
+              },
+              900: {
+                slidesPerView: 5,
+                spaceBetweenSlides: 50,
+              },
+            }}
+          >
+            {loadingWatchList ? <Loader /> : watchListMovies}
+          </Swiper>
+          <h1>SERIALE: TWOJA OCENA</h1>
+          <Swiper
+            className="swiper-custom"
+            spaceBetween={50}
+            slidesPerView={6}
+            scrollbar={{ draggable: true }}
+            navigation
+            breakpoints={{
+              320: {
+                slidesPerView: 1,
+                spaceBetweenSlides: 5,
+              },
+              480: {
+                slidesPerView: 2,
+                spaceBetweenSlides: 15,
+              },
+              610: {
+                slidesPerView: 3,
+                spaceBetweenSlides: 25,
+              },
+              768: {
+                slidesPerView: 4,
+                spaceBetweenSlides: 25,
+              },
+              900: {
+                slidesPerView: 5,
+                spaceBetweenSlides: 50,
+              },
+            }}
+          >
+            {loadingRated ? <Loader /> : ratedSeriesArr}
+          </Swiper>
+          <h1>SERIALE: CHCĘ ZOBACZYĆ</h1>
+          <Swiper
+            className="swiper-custom"
+            spaceBetween={50}
+            slidesPerView={6}
+            scrollbar={{ draggable: true }}
+            navigation
+            breakpoints={{
+              320: {
+                slidesPerView: 1,
+                spaceBetweenSlides: 5,
+              },
+              480: {
+                slidesPerView: 2,
+                spaceBetweenSlides: 15,
+              },
+              610: {
+                slidesPerView: 3,
+                spaceBetweenSlides: 25,
+              },
+              768: {
+                slidesPerView: 4,
+                spaceBetweenSlides: 25,
+              },
+              900: {
+                slidesPerView: 5,
+                spaceBetweenSlides: 50,
+              },
+            }}
+          >
+            {loadingWatchList ? <Loader /> : watchListSeries}
+          </Swiper>
+        </StyledContainer>
+      </Container>
+      <Footer />
     </React.Fragment>
   );
 };

@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Filter from "../Filter/Filter";
 import Loader from "../UI/Loader";
 import StyledGridContainer from "../common/StyledGridContainer";
+import Container from '../common/Container';
 
 const Films = (props) => {
   const [defaultMovies, setDefaultMovies] = useState([]);
@@ -58,7 +59,7 @@ const Films = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <Container>
       <Filter change={onChangeFilter} />
       {loading && <Loader />}
 
@@ -70,7 +71,7 @@ const Films = (props) => {
       >
         <StyledGridContainer> {cards}</StyledGridContainer>
       </InfiniteScroll>
-    </React.Fragment>
+    </Container>
   );
 };
 

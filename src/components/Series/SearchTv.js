@@ -5,7 +5,9 @@ import genres from "../common/genres";
 import Loader from "../UI/Loader";
 import StyledWrapper from "../common/StyledWrapper";
 import CastSwiper from "../Swiper/CastSwiper";
-import HoverRating from '../Rating/Rating';
+import HoverRating from "../Rating/Rating";
+import Container from "../common/Container";
+import Footer from "../footer/Footer";
 
 const SearchTv = (props) => {
   let { id } = useParams();
@@ -23,7 +25,7 @@ const SearchTv = (props) => {
       .then((res) => {
         const firsRecord = [res.results[0]];
         const seriesId = [res.results[0].id];
-        setSeriesID(seriesId)
+        setSeriesID(seriesId);
         setDefaultMovies(firsRecord);
         setError(false);
         setLoading(false);
@@ -34,12 +36,11 @@ const SearchTv = (props) => {
   let parsedData;
 
   parsedData = defaultMovies.map((defaultMovies) => {
-    
     const dateStart = new Date(defaultMovies.first_air_date).getFullYear();
     const dateEnd = new Date(defaultMovies.last_air_date).getFullYear();
     const genreArr = defaultMovies.genre_ids;
     let genreFound = [];
-    
+
     genreFound = genreArr.map((genreId) => {
       return genres.map((element) => {
         if (genreId == element.id) {
@@ -57,7 +58,7 @@ const SearchTv = (props) => {
             {!isNaN(dateEnd) && dateEnd})
           </h1>
           <h1 className="genres">{genreFound}</h1>
-          <HoverRating movieId={seriesID} isMovie={false}/>
+          <HoverRating movieId={seriesID} isMovie={false} />
           <p className="rating">
             <i className="material-icons">star</i>
             {defaultMovies.vote_average}
@@ -73,8 +74,11 @@ const SearchTv = (props) => {
   } else {
     return (
       <React.Fragment>
-        <StyledWrapper>{parsedData}</StyledWrapper>
-        <CastSwiper id={seriesID} type="tv" />
+        <Container>
+          <StyledWrapper>{parsedData}</StyledWrapper>
+          <CastSwiper id={seriesID} type="tv" />
+        </Container>
+        <Footer />
       </React.Fragment>
     );
   }

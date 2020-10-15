@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Container } from "../../App";
+import Container from '../common/Container';
 
 
 const StyledFilter = styled.div`

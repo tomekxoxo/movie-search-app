@@ -3,7 +3,9 @@ import { API_KEY, IMG_PATH } from "../../App";
 import { useParams } from "react-router-dom";
 import Loader from "../UI/Loader";
 import StyledWrapper from "../common/StyledWrapper";
-import CastSwiper from '../Swiper/CastSwiper';
+import CastSwiper from "../Swiper/CastSwiper";
+import Container from "../common/Container";
+import Footer from "../footer/Footer";
 
 const People = (props) => {
   let { id } = useParams();
@@ -38,28 +40,35 @@ const People = (props) => {
   } else {
     return (
       <React.Fragment>
-        <StyledWrapper>
-          <img src={`${IMG_PATH}${data.profile_path}`}></img>
-          <div className="info">
-            <h1>{data.name}</h1>
-            <p className="rating" style={{ color: "black", fontSize:'2.4rem'}}>
-              data urodzenia:
-              {' '+data.birthday}
-            </p>
-            <p className="rating" style={{ color: "black", fontSize:'2.4rem' }}>
-              miejsce urodzenia:
-              {' '+data.place_of_birth}
-            </p>
-            <p className="rating">
-              wiek: {getAge(data.birthday)}
-            </p>
-            <p className="rating">
-              {data.deathday && 'śmierć:'} {data.deathday}    
-            </p>
-            <p>{data.biography}</p>
-          </div>
-        </StyledWrapper>
-        <CastSwiper id={id} type="person"/>
+        <Container>
+          <StyledWrapper>
+            <img src={`${IMG_PATH}${data.profile_path}`}></img>
+            <div className="info">
+              <h1>{data.name}</h1>
+              <p
+                className="rating"
+                style={{ color: "black", fontSize: "2.4rem" }}
+              >
+                data urodzenia:
+                {" " + data.birthday}
+              </p>
+              <p
+                className="rating"
+                style={{ color: "black", fontSize: "2.4rem" }}
+              >
+                miejsce urodzenia:
+                {" " + data.place_of_birth}
+              </p>
+              <p className="rating">wiek: {getAge(data.birthday)}</p>
+              <p className="rating">
+                {data.deathday && "śmierć:"} {data.deathday}
+              </p>
+              <p>{data.biography}</p>
+            </div>
+          </StyledWrapper>
+          <CastSwiper id={id} type="person" />
+        </Container>
+        <Footer />
       </React.Fragment>
     );
   }

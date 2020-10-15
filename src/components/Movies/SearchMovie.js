@@ -5,7 +5,9 @@ import genres from "../common/genres";
 import Loader from "../UI/Loader";
 import StyledWrapper from "../common/StyledWrapper";
 import CastSwiper from "../Swiper/CastSwiper";
-import HoverRating from '../Rating/Rating';
+import HoverRating from "../Rating/Rating";
+import Container from "../common/Container";
+import Footer from "../footer/Footer";
 
 const SearchMovie = (props) => {
   let { id } = useParams();
@@ -15,7 +17,6 @@ const SearchMovie = (props) => {
   const [loading, setLoading] = useState(true);
   const [movieID, setMovieId] = useState(null);
 
-
   useEffect(() => {
     fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=pl&query=${id}&page=1&include_adult=false`
@@ -24,7 +25,7 @@ const SearchMovie = (props) => {
       .then((res) => {
         const firsRecord = [res.results[0]];
         const movieId = [res.results[0].id];
-        setMovieId(movieId)
+        setMovieId(movieId);
         setDefaultMovies(firsRecord);
         setError(false);
         setLoading(false);
@@ -53,7 +54,7 @@ const SearchMovie = (props) => {
             {new Date(defaultMovies.release_date).getFullYear()})
           </h1>
           <h1 className="genres">{genreFound}</h1>
-          <HoverRating movieId={movieID} isMovie={true}/>
+          <HoverRating movieId={movieID} isMovie={true} />
           <p className="rating">
             <i className="material-icons">star</i>
             {defaultMovies.vote_average}
@@ -72,8 +73,11 @@ const SearchMovie = (props) => {
   } else {
     return (
       <React.Fragment>
-        <StyledWrapper>{parsedData}</StyledWrapper>
-        <CastSwiper id={movieID} type="movie" />
+        <Container>
+          <StyledWrapper>{parsedData}</StyledWrapper>
+          <CastSwiper id={movieID} type="movie" />
+        </Container>
+        <Footer />
       </React.Fragment>
     );
   }

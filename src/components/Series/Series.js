@@ -6,17 +6,18 @@ import Filter from "../Filter/Filter";
 import Loader from "../UI/Loader";
 import StyledGridContainer from "../common/StyledGridContainer";
 import Container from "../common/Container";
+import { connect } from "react-redux";
+import * as actions from "../../store/actions/index";
 
 const Series = (props) => {
   const [defaultMovies, setDefaultMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(null);
-  const [filter, setFilter] = useState("popularity.desc");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
+      `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=${props.serieFilter}&include_adult=false&include_video=false&page=${page}`
     )
       .then((data) => data.json())
       .then((res) => {
@@ -30,7 +31,7 @@ const Series = (props) => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
+      `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=pl&sort_by=${props.serieFilter}&include_adult=false&include_video=false&page=${page}`
     )
       .then((data) => data.json())
       .then((res) => {
@@ -39,10 +40,10 @@ const Series = (props) => {
         setLoading(false);
       })
       .catch((err) => err);
-  }, [filter]);
+  }, [props.serieFilter]);
 
   const onChangeFilter = (e) => {
-    setFilter(e.target.value);
+    props.onChangeSerieFilter(e.target.value);
   };
 
   const cards = defaultMovies.map((movie) => (
@@ -61,7 +62,7 @@ const Series = (props) => {
   return (
     <React.Fragment>
       <Container>
-        <Filter change={onChangeFilter} />
+        <Filter change={onChangeFilter} value={props.serieFilter} />
         {loading && <Loader />}
         <InfiniteScroll
           dataLength={defaultMovies.length}
@@ -76,4 +77,18 @@ const Series = (props) => {
   );
 };
 
-export default Series;
+const mapStateToProps = (state) => {
+  return {
+    serieFilter: state.serieFilter,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onChangeSerieFilter: (serieFilter) => {
+      dispatch(actions.changeSerieFilter(serieFilter));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Series);

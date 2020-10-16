@@ -262,9 +262,15 @@ export const loadRatedFromDb = (userRatedList) => {
 };
 
 export const reloadAccountData = () => {
-  return (dispatch) => {
-    dispatch({ type: actionTypes.RELOAD_ACCOUNT_DATA });
-  };
+  return { type: actionTypes.RELOAD_ACCOUNT_DATA };
+};
+
+export const changeMovieFilter = (filter) => {
+  return { type: actionTypes.CHANGE_MOVIE_FILTER, filter:filter };
+};
+
+export const changeSerieFilter = (filter) => {
+  return { type: actionTypes.CHANGE_SERIE_FILTER, filter:filter };
 };
 
 export const deleteItemFromDb = (hash, isMovie, isRated, token) => {

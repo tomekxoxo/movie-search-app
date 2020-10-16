@@ -17,6 +17,8 @@ const initialState = {
   loadingRated: true,
   loadingWatchList: true,
   reloadAfterItemDelete: false,
+  movieFilter: "popularity.desc",
+  serieFilter: "popularity.desc",
 };
 
 const reducer = (state = initialState, action) => {
@@ -111,6 +113,8 @@ const reducer = (state = initialState, action) => {
         loadingRated: true,
         loadingWatchList: true,
         reloadAfterItemDelete: false,
+        movieFilter: state.movieFilter,
+        serieFilter: state.serieFilter,
       };
     case actionTypes.LOADING_RATED:
       return {
@@ -136,6 +140,17 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         error: null,
+      };
+
+    case actionTypes.CHANGE_MOVIE_FILTER:
+      return {
+        ...state,
+        movieFilter: action.filter,
+      };
+    case actionTypes.CHANGE_SERIE_FILTER:
+      return {
+        ...state,
+        serieFilter: action.filter,
       };
     default:
       return state;

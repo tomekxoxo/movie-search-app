@@ -6,17 +6,18 @@ import Filter from "../Filter/Filter";
 import Loader from "../UI/Loader";
 import StyledGridContainer from "../common/StyledGridContainer";
 import Container from '../common/Container';
+import { connect } from "react-redux";
+import * as actions from "../../store/actions/index";
 
 const Films = (props) => {
   const [defaultMovies, setDefaultMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(null);
-  const [filter, setFilter] = useState("popularity.desc");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${props.movieFilter}&include_adult=false&include_video=false&page=${page}`
     )
       .then((data) => data.json())
       .then((res) => {
@@ -30,7 +31,7 @@ const Films = (props) => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${filter}&include_adult=false&include_video=false&page=${page}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pl&sort_by=${props.movieFilter}&include_adult=false&include_video=false&page=${page}`
     )
       .then((data) => data.json())
       .then((res) => {
@@ -39,7 +40,7 @@ const Films = (props) => {
         setLoading(false);
       })
       .catch((err) => err);
-  }, [filter]);
+  }, [props.movieFilter]);
 
   let cards = defaultMovies.map((movie) => (
     <MovieCard
@@ -55,12 +56,12 @@ const Films = (props) => {
   ));
 
   const onChangeFilter = (e) => {
-    setFilter(e.target.value);
+    props.onChangeMovieFilter(e.target.value);
   };
 
   return (
     <Container>
-      <Filter change={onChangeFilter} />
+      <Filter change={onChangeFilter} value={props.movieFilter}/>
       {loading && <Loader />}
 
       <InfiniteScroll
@@ -75,4 +76,18 @@ const Films = (props) => {
   );
 };
 
-export default Films;
+const mapStateToProps = (state) => {
+  return {
+    movieFilter: state.movieFilter,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onChangeMovieFilter: (movieFilter) => {
+      dispatch(actions.changeMovieFilter(movieFilter));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Films);

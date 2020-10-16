@@ -11,5 +11,7 @@ export {
   loadRatedFromDb,
   reloadAccountData,
   deleteItemFromDb,
-  clearErrorState
+  clearErrorState,
+  changeMovieFilter,
+  changeSerieFilter,
 } from "./auth";

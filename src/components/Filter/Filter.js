@@ -20,11 +20,11 @@ const StyledFilter = styled.div`
   }
 `;
 
-const Filter = ({ change }) => {
+const Filter = (props) => {
   return (
     <Container>
       <StyledFilter>
-        <select onChange={change}>
+        <select onChange={props.change} defaultValue={props.value}>
           <option value="popularity.desc">Popularność: od najwyższej</option>
           <option value="popularity.asc">Popularność: od najniższej</option>
           <option value="vote_average.desc">Średnia ocen: od najwyższej</option>

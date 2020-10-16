@@ -48,6 +48,8 @@ const reducer = (state = initialState, action) => {
         userId: null,
         idToken: null,
         rateData: null,
+        movieFilter: state.movieFilter,
+        serieFilter: state.serieFilter,
       };
     case actionTypes.WATCHLIST_SUCCESS:
       return {

@@ -24,12 +24,15 @@ const People = (props) => {
       .catch((err) => err);
   }, [id]);
 
-  function getAge(dateString) {
-    var today = new Date();
+  function getAge(dateString, deathDay) {
+    var todayOrDeath = new Date();
+    if (deathDay !== null) {
+      todayOrDeath = new Date(deathDay);
+    }
     var birthDate = new Date(dateString);
-    var age = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    var age = todayOrDeath.getFullYear() - birthDate.getFullYear();
+    var m = todayOrDeath.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && todayOrDeath.getDate() < birthDate.getDate())) {
       age--;
     }
     return age;
@@ -59,7 +62,9 @@ const People = (props) => {
                 miejsce urodzenia:
                 {" " + data.place_of_birth}
               </p>
-              <p className="rating">wiek: {getAge(data.birthday)}</p>
+              <p className="rating">
+                wiek: {getAge(data.birthday, data.deathday)}
+              </p>
               <p className="rating">
                 {data.deathday && "śmierć:"} {data.deathday}
               </p>

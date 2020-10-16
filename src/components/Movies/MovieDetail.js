@@ -54,6 +54,7 @@ const MovieDetail = () => {
               <p className="rating">
                 <i className="material-icons">star</i>
                 {defaultMovies.vote_average}
+                <span className="vote-count">Ilość ocen: {defaultMovies.vote_count?defaultMovies.vote_count: 0}</span>
               </p>
               <p className="release-date">
                 <i className="fas fa-video"></i>

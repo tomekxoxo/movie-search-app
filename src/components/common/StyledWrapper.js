@@ -46,6 +46,13 @@ const StyledWrapper = styled.div`
         top: 1rem;
         left: 1rem;
       }
+      .vote-count {
+        color: #000;
+        font-size: 1.2rem;
+        align-self: flex-end;
+        padding-bottom: 0.5rem;
+        padding-left:.5rem;
+      }
     }
     .release-date {
       i {
@@ -73,8 +80,8 @@ const StyledWrapper = styled.div`
       }
     }
     .seasons {
-      max-height:280px;
-      overflow-y:scroll;
+      max-height: 280px;
+      overflow-y: scroll;
       margin-top: 1rem;
       font-weight: normal;
       display: flex;

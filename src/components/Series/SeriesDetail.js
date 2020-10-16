@@ -75,6 +75,7 @@ const SeriesDetail = () => {
               <p className="rating">
                 <i className="material-icons">star</i>
                 {defaultMovies.vote_average}
+                <span className="vote-count">Ilość ocen: {defaultMovies.vote_count?defaultMovies.vote_count: 0}</span>
               </p>
               <h1 className="seasons">{seasons}</h1>
               <p>{defaultMovies.release_date}</p>

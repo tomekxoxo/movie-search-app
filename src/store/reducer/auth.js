@@ -16,7 +16,7 @@ const initialState = {
   loadRatedSeries: [],
   loadingRated: true,
   loadingWatchList: true,
-  reloadAfterItemDelete: false
+  reloadAfterItemDelete: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -110,7 +110,7 @@ const reducer = (state = initialState, action) => {
         loadRatedSeries: [],
         loadingRated: true,
         loadingWatchList: true,
-        reloadAfterItemDelete: false
+        reloadAfterItemDelete: false,
       };
     case actionTypes.LOADING_RATED:
       return {
@@ -125,12 +125,17 @@ const reducer = (state = initialState, action) => {
     case actionTypes.DELETE_ITEM_SUCCESS:
       return {
         ...state,
-        reloadAfterItemDelete:true
+        reloadAfterItemDelete: true,
       };
     case actionTypes.DELETE_ITEM_FAIL:
       return {
         ...state,
         error: action.error,
+      };
+    case actionTypes.CLEAR_ERROR_STATE:
+      return {
+        ...state,
+        error: null,
       };
     default:
       return state;

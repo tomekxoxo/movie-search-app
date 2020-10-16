@@ -113,6 +113,7 @@ const Auth = (props) => {
     setTimeout(() => {
       setRegError("");
       setLoginError("");
+      props.onClearErrorState();
     }, 3000);
   };
 
@@ -248,6 +249,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (email, password, isSignUpMode) => {
       dispatch(actions.auth(email, password, isSignUpMode));
+    },
+    onClearErrorState: () => {
+      dispatch(actions.clearErrorState());
     },
   };
 };

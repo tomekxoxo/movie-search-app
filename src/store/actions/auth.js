@@ -297,3 +297,7 @@ export const deleteItemFromDb = (hash, isMovie, isRated, token) => {
     })
   };
 };
+
+export const clearErrorState = () => {
+  return {type: actionTypes.CLEAR_ERROR_STATE}
+}

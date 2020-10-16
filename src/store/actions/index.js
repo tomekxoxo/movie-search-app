@@ -10,5 +10,6 @@ export {
   loadWatchListFromDb,
   loadRatedFromDb,
   reloadAccountData,
-  deleteItemFromDb
+  deleteItemFromDb,
+  clearErrorState
 } from "./auth";

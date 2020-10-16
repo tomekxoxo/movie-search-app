@@ -275,29 +275,26 @@ export const deleteItemFromDb = (hash, isMovie, isRated, token) => {
       if (!isRated) {
         url = `https://movie-search-3d6f7.firebaseio.com/series/watchlist/${hash}.json?auth=${token}`;
       }
-    }
-    else {
+    } else {
       url = `https://movie-search-3d6f7.firebaseio.com/movies/${hash}.json?auth=${token}`;
       if (!isRated) {
         url = `https://movie-search-3d6f7.firebaseio.com/movies/watchlist/${hash}.json?auth=${token}`;
       }
     }
-    fetch(
-      url,
-      { method: "DELETE" }
-    ).then((data) => {
-      if (data.status === 200) {
-        dispatch({ type: actionTypes.DELETE_ITEM_SUCCESS })
-      }
-      else {
-        throw new Error(data.error.message);
-      }
-    }).catch(error => {
-      dispatch({ type: actionTypes.DELETE_ITEM_FAIL, error: error.message });
-    })
+    fetch(url, { method: "DELETE" })
+      .then((data) => {
+        if (data.status === 200) {
+          dispatch({ type: actionTypes.DELETE_ITEM_SUCCESS });
+        } else {
+          throw new Error(data.error.message);
+        }
+      })
+      .catch((error) => {
+        dispatch({ type: actionTypes.DELETE_ITEM_FAIL, error: error.message });
+      });
   };
 };
 
 export const clearErrorState = () => {
-  return {type: actionTypes.CLEAR_ERROR_STATE}
-}
+  return { type: actionTypes.CLEAR_ERROR_STATE };
+};

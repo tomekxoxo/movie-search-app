@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
@@ -48,13 +48,56 @@ const useStyles = makeStyles({
 });
 
 const HoverRating = (props) => {
-  const [value, setValue] = React.useState(0);
-  const [hover, setHover] = React.useState(-1);
+  const [value, setValue] = useState(0);
+  const [hover, setHover] = useState(-1);
+  const [buttonMessage, setButtonMessage] = useState("Chcę zobaczyć");
+  const [disableButton, setDisableButton] = useState(false);
   const classes = useStyles();
+
+  const disableButtonHandler = () => {
+    setButtonMessage("Dodano")
+    setDisableButton(true)
+  }
+
+  const checkForDuplicatesWatchList = (isMovie, userId, currentMovieId) => {
+    let url = `https://movie-search-3d6f7.firebaseio.com/movies/watchlist.json?orderBy="userId"&equalTo="${userId}"`;
+    if (!isMovie) {
+      url = `https://movie-search-3d6f7.firebaseio.com/series/watchlist.json?orderBy="userId"&equalTo="${userId}"`;
+    }
+
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        let shouldAdd = true;
+        for (let key in data) {
+          if (currentMovieId === data[key].movieId) {
+            disableButtonHandler()
+            shouldAdd = false;
+          }
+        }
+        if (shouldAdd) {
+          props.onAddToWatchList(
+            props.movieId,
+            props.isMovie,
+            props.userId,
+            props.token
+          );
+          disableButtonHandler()
+        } else {
+          return;
+        }
+      });
+  };
 
   const rateMovieHandler = (value) => {
     if (props.isAuthenticated) {
-      props.onRate(props.movieId, props.isMovie, value, props.userId, props.token);
+      props.onRate(
+        props.movieId,
+        props.isMovie,
+        value,
+        props.userId,
+        props.token
+      );
     } else {
       props.history.push(process.env.PUBLIC_URL + "/auth");
     }
@@ -62,7 +105,7 @@ const HoverRating = (props) => {
 
   const addToWatchListHandler = () => {
     if (props.isAuthenticated) {
-      props.onAddToWatchList(props.movieId, props.isMovie, props.userId, props.token);
+      checkForDuplicatesWatchList(props.isMovie, props.userId, props.movieId);
     } else {
       props.history.push(process.env.PUBLIC_URL + "/auth");
     }
@@ -91,7 +134,7 @@ const HoverRating = (props) => {
           <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>
         )}
       </div>
-      <ButtonWatchList addMovie={addToWatchListHandler} />
+      <ButtonWatchList addMovie={addToWatchListHandler} text={buttonMessage} disable={disableButton}/>
     </RatingComponent>
   );
 };
@@ -100,7 +143,7 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.authenticated,
     userId: state.userId,
-    token:state.idToken
+    token: state.idToken,
   };
 };
 

@@ -106,7 +106,7 @@ const SearchBar = ({ submitted, isOpen }) => {
               ")"}
           </p>
         );
-      } else {
+      } else if(element.media_type == "movie"){
         link = `${
           process.env.PUBLIC_URL
         }/movies/search/movies/${encodeURIComponent(element.title)}`;

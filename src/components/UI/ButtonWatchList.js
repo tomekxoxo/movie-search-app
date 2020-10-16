@@ -15,14 +15,13 @@ const StyledButton = styled.button`
   &:hover,
   &:focus,
   &::not([DISABLED]) {
-    cursor: default;
-
     i {
       color: #cfb53b;
     }
   }
   &:disabled {
     border: none;
+    cursor: auto;
   }
   i {
     margin-right: 1rem;

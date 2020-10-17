@@ -22,7 +22,7 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <Router>
+      <Router basename="/">
         <App />
       </Router>
     </React.StrictMode>

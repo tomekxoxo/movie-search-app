@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "./components/Navigation/NavBar";
-import Footer from "./components/footer/Footer";
-import styled from "styled-components";
-import { Route, Switch, Redirect, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import Films from "./components/Movies/Films";
 import Series from "./components/Series/Series";
 import Auth from "./components/Auth/Auth";
@@ -15,14 +13,8 @@ import SideDrawer from "./components/Navigation/SideDrawer";
 import Main from "./components/MainPage/Main";
 import Account from "./components/Account/Account";
 import { connect } from "react-redux";
+import Container from './components/common/Container';
 
-// export const Container = styled.div`
-//   width: 100%;
-//   max-width: 120rem;
-//   margin: 0 auto;
-//   padding: 0 1rem;
-//   margin-top: 10rem;
-// `;
 
 const API_KEY = "5164c32e4ce67e20eb6052f1f8215c14";
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
@@ -108,10 +100,9 @@ function App(props) {
               exact
               component={People}
             />
-            <Route render={() => <h1>Page not Found</h1>} />
+          <Route render={() => <Container><h1>Page not Found</h1></Container>}/>
           </Switch>
       </div>
-      {/* <Footer /> */}
     </React.Fragment>
   );
 }

@@ -53,7 +53,7 @@ export const rateMovie = (movieId, isMovie, score, userId, token) => {
       score: score,
     };
 
-    let url = `https://movie-search-3d67.firebaseio.com/movies.json?auth=${token}`;
+    let url = `https://movie-search-3d6f7.firebaseio.com/movies.json?auth=${token}`;
 
     if (!isMovie) {
       url = `https://movie-search-3d6f7.firebaseio.com/series.json?auth=${token}`;

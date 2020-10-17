@@ -3,6 +3,7 @@ import update from "react-addons-update";
 
 const initialState = {
   authenticated: false,
+  apiError: null,
   error: null,
   userId: null,
   idToken: null,
@@ -154,9 +155,30 @@ const reducer = (state = initialState, action) => {
         ...state,
         serieFilter: action.filter,
       };
+    case actionTypes.RATE_MOVIE_ERROR:
+      return {
+        ...state,
+        apiError: ` Rate movie Error : ${action.error}`,
+      };
+    case actionTypes.WATCHLIST_ERROR:
+      return {
+        ...state,
+        apiError: ` Add to Watchlist Error : ${action.error}`,
+      };
+    case actionTypes.FIREBASE_DOWNLOAD_ERROR:
+      return {
+        ...state,
+        apiError: ` Firebase Download Error : ${action.error}`,
+      };
+    case actionTypes.API_DOWNLOAD_ERROR:
+      return {
+        ...state,
+        apiError: ` Api Download Error : ${action.error}`,
+      };
     default:
       return state;
   }
 };
 
 export default reducer;
+;

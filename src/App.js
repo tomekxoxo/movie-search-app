@@ -13,8 +13,8 @@ import SideDrawer from "./components/Navigation/SideDrawer";
 import Main from "./components/MainPage/Main";
 import Account from "./components/Account/Account";
 import { connect } from "react-redux";
-import Container from './components/common/Container';
-
+import Container from "./components/common/Container";
+import Error from "./components/UI/Error";
 
 const API_KEY = "5164c32e4ce67e20eb6052f1f8215c14";
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
@@ -50,58 +50,65 @@ function App(props) {
             isOpen={sideDrawer}
           />
         )}
-          <Switch>
-            <Route path={process.env.PUBLIC_URL + "/"} exact component={Main} />
+        {props.apiError ? <Error /> : null}
+        <Switch>
+          <Route path={process.env.PUBLIC_URL + "/"} exact component={Main} />
+          <Route
+            path={process.env.PUBLIC_URL + "/auth"}
+            exact
+            component={Auth}
+          />
+          {props.isAuthenticated && (
             <Route
-              path={process.env.PUBLIC_URL + "/auth"}
+              path={process.env.PUBLIC_URL + "/account"}
               exact
-              component={Auth}
+              component={Account}
             />
-            {props.isAuthenticated && (
-              <Route
-                path={process.env.PUBLIC_URL + "/account"}
-                exact
-                component={Account}
-              />
-            )}
+          )}
 
-            <Route
-              path={process.env.PUBLIC_URL + "/movies"}
-              exact
-              component={Films}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/movies/:id"}
-              exact
-              component={MovieDetail}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/series"}
-              exact
-              component={Series}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/series/:id"}
-              exact
-              component={SeriesDetail}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/series/search/tv/:id"}
-              exact
-              component={SearchTv}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/movies/search/movies/:id"}
-              exact
-              component={SearchMovie}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/people/:id"}
-              exact
-              component={People}
-            />
-          <Route render={() => <Container><h1>Page not Found</h1></Container>}/>
-          </Switch>
+          <Route
+            path={process.env.PUBLIC_URL + "/movies"}
+            exact
+            component={Films}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/movies/:id"}
+            exact
+            component={MovieDetail}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/series"}
+            exact
+            component={Series}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/series/:id"}
+            exact
+            component={SeriesDetail}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/series/search/tv/:id"}
+            exact
+            component={SearchTv}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/movies/search/movies/:id"}
+            exact
+            component={SearchMovie}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/people/:id"}
+            exact
+            component={People}
+          />
+          <Route
+            render={() => (
+              <Container>
+                <h1>Page not Found</h1>
+              </Container>
+            )}
+          />
+        </Switch>
       </div>
     </React.Fragment>
   );
@@ -110,6 +117,7 @@ function App(props) {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.authenticated,
+    apiError: state.apiError,
   };
 };
 

@@ -154,7 +154,6 @@ const HoverRating = (props) => {
           precision={1}
           onChange={(event, newValue) => {
             if (newValue != null) {
-              console.log(value, newValue);
               setValue(newValue);
               rateMovieHandler(newValue);
             }

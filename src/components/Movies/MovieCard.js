@@ -1,12 +1,13 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import ImageNotFound from "../../assets/images/image-not-found.png";
 import { IMG_PATH } from "../../App";
+import Loader from "../UI/Loader";
 
 const StyledCard = styled(Link)`
-  width: ${props => props.width? props.width : '100%'};
-  height: ${props => props.height? props.height : '45rem'};
+  width: ${(props) => (props.width ? props.width : "100%")};
+  height: ${(props) => (props.height ? props.height : "45rem")};
   position: relative;
   text-align: center;
   display: flex;
@@ -46,21 +47,24 @@ const StyledCard = styled(Link)`
     top: 0rem;
     left: 0rem;
   }
-  @media screen and (max-width:680px){
-    img{
-      height:100%;
+  @media screen and (max-width: 680px) {
+    img {
+      height: 100%;
     }
   }
 `;
 
 const MovieCard = (props) => {
+
   return (
     <div>
-      <StyledCard width={props.width} height={props.height}
+      <StyledCard
+        width={props.width}
+        height={props.height}
         to={`${props.isMovie ? "movies" : "series"}/${props.movieId}`}
       >
         {props.poster ? (
-          <img src={`${IMG_PATH}${props.poster}`} alt="movie img" />
+           <img src={`${IMG_PATH}${props.poster}`} alt="movie img" />
         ) : (
           <img
             style={{ objectFit: "contain" }}

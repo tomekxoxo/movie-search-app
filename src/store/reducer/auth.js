@@ -175,10 +175,18 @@ const reducer = (state = initialState, action) => {
         ...state,
         apiError: ` Api Download Error : ${action.error}`,
       };
+    case actionTypes.RATE_UPDATE_SUCCESS:
+      return {
+        ...state
+      };
+    case actionTypes.RATE_UPDATE_FAIL:
+      return {
+        ...state,
+        apiError: ` Rating Update Error : ${action.error}`,
+      };
     default:
       return state;
   }
 };
 
 export default reducer;
-;

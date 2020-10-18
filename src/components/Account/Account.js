@@ -96,30 +96,32 @@ const Account = (props) => {
 
   let watchListMovies, watchListSeries, ratedMoviesArr, ratedSeriesArr;
 
-  ratedMoviesArr = loadRatedMovies.map((movie) => {
-    return (
-      <SwiperSlide key={movie.id}>
-        <MovieCard
-          width="180px"
-          height="29rem"
-          isMovie={true}
-          movieId={movie.id}
-          background={`${IMG_PATH}${movie.backdrop_path}`}
-          title={movie.title}
-          poster={movie.poster_path}
-          poster={movie.poster_path}
-          avg={movie.vote_average}
-        />
-        <DeleteButton
-          onClick={() =>
-            onDeleteItemFromDb(movie.firebaseHash, true, true, idToken)
-          }
-        >
-          <i className="fas fa-trash-alt"></i>
-        </DeleteButton>
-      </SwiperSlide>
-    );
-  });
+  if (loadRatedMovies) {
+    ratedMoviesArr = loadRatedMovies.map((movie) => {
+      return (
+        <SwiperSlide key={movie.id}>
+          <MovieCard
+            width="180px"
+            height="29rem"
+            isMovie={true}
+            movieId={movie.id}
+            background={`${IMG_PATH}${movie.backdrop_path}`}
+            title={movie.title}
+            poster={movie.poster_path}
+            poster={movie.poster_path}
+            avg={movie.vote_average}
+          />
+          <DeleteButton
+            onClick={() =>
+              onDeleteItemFromDb(movie.firebaseHash, true, true, idToken)
+            }
+          >
+            <i className="fas fa-trash-alt"></i>
+          </DeleteButton>
+        </SwiperSlide>
+      );
+    });
+  }
 
   if (loadWatchListMovies) {
     watchListMovies = loadWatchListMovies.map((movie) => {

@@ -1,6 +1,7 @@
 export {
   auth,
   rateMovie,
+  updateRating,
   authLogout,
   addToWatchList,
   downloadFirebaseMovieWatchList,

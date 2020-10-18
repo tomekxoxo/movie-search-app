@@ -85,6 +85,37 @@ export const rateMovie = (movieId, isMovie, score, userId, token) => {
   };
 };
 
+export const updateRating = (hash, isMovie, token, newValue) => {
+  return (dispatch) => {
+    const data = {
+      score: newValue,
+    };
+    let url = null;
+    if (!isMovie) {
+      url = `https://movie-search-3d6f7.firebaseio.com/series/${hash}.json?auth=${token}`;
+    } else {
+      url = `https://movie-search-3d6f7.firebaseio.com/movies/${hash}.json?auth=${token}`;
+    }
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((data) => {
+        if (data.status === 200) {
+          dispatch({ type: actionTypes.RATE_UPDATE_SUCCESS });
+        } else {
+          throw new Error(data.error.message);
+        }
+      })
+      .catch((error) => {
+        dispatch({ type: actionTypes.RATE_UPDATE_FAIL, error: error.message });
+      });
+  };
+};
+
 export const addToWatchList = (movieId, isMovie, userId, token) => {
   return (dispatch) => {
     const data = {

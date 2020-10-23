@@ -28,8 +28,24 @@ App was created for learning purpose.
 * FIREBASE
 
 ## Setup
-Simply download files and open in live server.
-If you want to develope please use `npm install` and use scripts saved in package.json.
+1. clone repo   
+```
+git clone https://github.com/tomekxoxo/movie-search-app.git
+```
+
+2. cd into directory   
+```
+cd movie-search-app
+```
+
+3. install dependencies using npm 
+```
+npm i
+```
+3. To start server
+```
+npm start
+```
 
 ## Features
 * user can search for movies or series by title
